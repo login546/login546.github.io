@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta name="baidu-site-verification" content="zTujQKnJ3B">
+  <meta name="google-site-verification" content="mFwbH0kPkAgWCJvSVXe6kF8tqqjhl56sE_x1HwJEXmU">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000">
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top">
+  
+  
+  <title>渗透测试《搜索引擎》利用 | Shym&#39;s Blog</title>
+  <meta name="description" content="本篇要介绍的搜索引擎包括：Shodan，censys，钟馗之眼，Google，FoFa，Dnsdb等。介绍的内容主要是这几款搜索引擎的一些高级语法，掌握高级语法会让搜索结果更准确。 Google搜索引擎​        这里之所以要介绍google搜索引擎，其中google hacking用来形容google与安全非同寻常的关系。 google基本语法12345678910111213141516">
+<meta name="keywords" content="搜索引擎利用">
+<meta property="og:type" content="article">
+<meta property="og:title" content="渗透测试《搜索引擎》利用">
+<meta property="og:url" content="https:///login546.github.io/2019/07/08/渗透测试《搜索引擎》/index.html">
+<meta property="og:site_name" content="shym&#39;s blog">
+<meta property="og:description" content="本篇要介绍的搜索引擎包括：Shodan，censys，钟馗之眼，Google，FoFa，Dnsdb等。介绍的内容主要是这几款搜索引擎的一些高级语法，掌握高级语法会让搜索结果更准确。 Google搜索引擎​        这里之所以要介绍google搜索引擎，其中google hacking用来形容google与安全非同寻常的关系。 google基本语法12345678910111213141516">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2021-01-22T08:48:08.994Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="渗透测试《搜索引擎》利用">
+<meta name="twitter:description" content="本篇要介绍的搜索引擎包括：Shodan，censys，钟馗之眼，Google，FoFa，Dnsdb等。介绍的内容主要是这几款搜索引擎的一些高级语法，掌握高级语法会让搜索结果更准确。 Google搜索引擎​        这里之所以要介绍google搜索引擎，其中google hacking用来形容google与安全非同寻常的关系。 google基本语法12345678910111213141516">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https:///login546.github.io/2019/07/08/渗透测试《搜索引擎》/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="shym&#39;s blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+  
+  
+  
+</head>
+
+
+<body class="main-center theme-black" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/login546" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">Shym</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">Web Penetration &amp; Safe</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Nanjing, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索">
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech>
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav menu-highlight">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">分类</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">标签</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">项目</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-links">
+          <a href="/links">
+            
+            <i class="icon icon-friendship"></i>
+            
+            <span class="menu-title">友链</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">关于</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/login546" target="_blank" title="Github" data-toggle="tooltip" data-placement="top"><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle="tooltip" data-placement="top"><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎交流与分享经验!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Bypass/">Bypass</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ctf/">ctf</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/writeup/">writeup</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/渗透测试/">渗透测试</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/渗透测试/工具/">工具</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/漏洞复现/">漏洞复现</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/通用漏洞挖掘/">通用漏洞挖掘</a><span class="category-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget-body">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/2019-DDCTF-writeup/">2019-DDCTF-writeup</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/2019年工业信息安全技能大赛个人线上赛-第一场/">2019年工业信息安全技能大赛个人线上赛(第一场)</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CTFhub/">CTFhub</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CTFhub-RCE/">CTFhub-RCE</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CVE-2019-0708/">CVE-2019-0708</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CVE-2019-13272/">CVE-2019-13272</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CVE-2019-14287/">CVE-2019-14287</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CVE-2020-0796/">CVE-2020-0796</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Joomla3-0-0-3-4-5-RCE/">Joomla3.0.0-3.4.5 RCE</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ices/">ices</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sqlmap参数详解/">sqlmap参数详解</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/存储型xss/">存储型xss</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/搜索引擎利用/">搜索引擎利用</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/文件上传姿势总结/">文件上传姿势总结</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/文件包含漏洞/">文件包含漏洞</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/爬虫/">爬虫</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/2019-DDCTF-writeup/" style="font-size: 13px;">2019-DDCTF-writeup</a> <a href="/tags/2019年工业信息安全技能大赛个人线上赛-第一场/" style="font-size: 13px;">2019年工业信息安全技能大赛个人线上赛(第一场)</a> <a href="/tags/CTFhub/" style="font-size: 13px;">CTFhub</a> <a href="/tags/CTFhub-RCE/" style="font-size: 13px;">CTFhub-RCE</a> <a href="/tags/CVE-2019-0708/" style="font-size: 13px;">CVE-2019-0708</a> <a href="/tags/CVE-2019-13272/" style="font-size: 13px;">CVE-2019-13272</a> <a href="/tags/CVE-2019-14287/" style="font-size: 13px;">CVE-2019-14287</a> <a href="/tags/CVE-2020-0796/" style="font-size: 13px;">CVE-2020-0796</a> <a href="/tags/Joomla3-0-0-3-4-5-RCE/" style="font-size: 13px;">Joomla3.0.0-3.4.5 RCE</a> <a href="/tags/ices/" style="font-size: 13px;">ices</a> <a href="/tags/sqlmap参数详解/" style="font-size: 13px;">sqlmap参数详解</a> <a href="/tags/存储型xss/" style="font-size: 13px;">存储型xss</a> <a href="/tags/搜索引擎利用/" style="font-size: 13px;">搜索引擎利用</a> <a href="/tags/文件上传姿势总结/" style="font-size: 13px;">文件上传姿势总结</a> <a href="/tags/文件包含漏洞/" style="font-size: 13px;">文件包含漏洞</a> <a href="/tags/爬虫/" style="font-size: 13px;">爬虫</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">四月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">三月 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">二月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">十二月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">七月 2019</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">四月 2019</a><span class="archive-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/漏洞复现/">漏洞复现</a>
+              </p>
+              <p class="item-title">
+                <a href="/2020/04/01/CVE-2020-0796复现/" class="title">CVE-2020-0796复现</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-04-01T15:25:05.000Z" itemprop="datePublished">2020-04-01</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Bypass/">Bypass</a>
+              </p>
+              <p class="item-title">
+                <a href="/2020/03/17/RCE远程命令执行绕过/" class="title">RCE远程命令执行绕过</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-03-17T17:01:45.000Z" itemprop="datePublished">2020-03-17</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/writeup/">writeup</a>
+              </p>
+              <p class="item-title">
+                <a href="/2020/03/04/CTFhub注入题目/" class="title">CTFhub注入题目</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-03-04T16:46:33.000Z" itemprop="datePublished">2020-03-04</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/通用漏洞挖掘/">通用漏洞挖掘</a>
+              </p>
+              <p class="item-title">
+                <a href="/2020/02/21/某智慧校园系统存储型xss/" class="title">某智慧校园系统存储型xss</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-02-21T22:45:21.000Z" itemprop="datePublished">2020-02-21</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/python/">python</a>
+              </p>
+              <p class="item-title">
+                <a href="/2019/12/30/爬区国内所有高校官网地址/" class="title">爬区国内所有高校名单</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-12-30T11:26:50.000Z" itemprop="datePublished">2019-12-30</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<aside class="sidebar sidebar-toc collapse" id="collapseToc" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    <nav id="toc" class="article-toc">
+      <h3 class="toc-title">文章目录</h3>
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Google搜索引擎"><span class="toc-number">1.</span> <span class="toc-text">Google搜索引擎</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#google基本语法"><span class="toc-number">1.1.</span> <span class="toc-text">google基本语法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#搜索不同国家网站"><span class="toc-number">1.2.</span> <span class="toc-text">搜索不同国家网站</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#利用google暴库"><span class="toc-number">1.3.</span> <span class="toc-text">利用google暴库</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#利用goole搜索敏感信息"><span class="toc-number">1.4.</span> <span class="toc-text">利用goole搜索敏感信息</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#利用google搜索C段服务器信息"><span class="toc-number">1.5.</span> <span class="toc-text">利用google搜索C段服务器信息</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#shodan搜索引擎"><span class="toc-number">2.</span> <span class="toc-text">shodan搜索引擎</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#搜索语法"><span class="toc-number">2.1.</span> <span class="toc-text">搜索语法</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#censys搜索引擎"><span class="toc-number">3.</span> <span class="toc-text">censys搜索引擎</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#搜索语法-1"><span class="toc-number">3.1.</span> <span class="toc-text">搜索语法</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#钟馗之眼"><span class="toc-number">4.</span> <span class="toc-text">钟馗之眼</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#搜索语法-2"><span class="toc-number">4.1.</span> <span class="toc-text">搜索语法</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#FoFa搜索引擎"><span class="toc-number">5.</span> <span class="toc-text">FoFa搜索引擎</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#搜索语法-3"><span class="toc-number">5.1.</span> <span class="toc-text">搜索语法</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Dnsdb搜索引擎"><span class="toc-number">6.</span> <span class="toc-text">Dnsdb搜索引擎</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#搜索语法-4"><span class="toc-number">6.1.</span> <span class="toc-text">搜索语法</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#域名查询条件"><span class="toc-number">6.1.1.</span> <span class="toc-text">域名查询条件</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#主机查询条件"><span class="toc-number">6.1.2.</span> <span class="toc-text">主机查询条件</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#按DNS记录类型查询"><span class="toc-number">6.1.3.</span> <span class="toc-text">按DNS记录类型查询</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#按IP限制"><span class="toc-number">6.1.4.</span> <span class="toc-text">按IP限制</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#条件组合查询的例子"><span class="toc-number">6.1.5.</span> <span class="toc-text">条件组合查询的例子</span></a></li></ol></li></ol></li></ol>
+    </nav>
+  </div>
+</aside>
+
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-渗透测试《搜索引擎》" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      渗透测试《搜索引擎》利用
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2019/07/08/渗透测试《搜索引擎》/" class="article-date">
+	  <time datetime="2019-07-08T10:47:43.000Z" itemprop="datePublished">2019-07-08</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/渗透测试/">渗透测试</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link" href="/tags/搜索引擎利用/">搜索引擎利用</a>
+  </span>
+
+
+        
+	<span class="article-read hidden-xs">
+	    <i class="icon icon-eye-fill" aria-hidden="true"></i>
+	    <span id="busuanzi_container_page_pv">
+			<span id="busuanzi_value_page_pv">0</span>
+		</span>
+	</span>
+
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2019/07/08/渗透测试《搜索引擎》/#comments" class="article-comment-link">评论</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 1.7k(字)</span>
+	
+	
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 7(分)</span>
+	
+
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <p>本篇要介绍的搜索引擎包括：Shodan，censys，钟馗之眼，Google，FoFa，Dnsdb等。介绍的内容主要是这几款搜索引擎的一些高级语法，掌握高级语法会让搜索结果更准确。</p>
+<h3 id="Google搜索引擎"><a href="#Google搜索引擎" class="headerlink" title="Google搜索引擎"></a>Google搜索引擎</h3><p>​        这里之所以要介绍google搜索引擎，其中google hacking用来形容google与安全非同寻常的关系。</p>
+<h4 id="google基本语法"><a href="#google基本语法" class="headerlink" title="google基本语法"></a>google基本语法</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">Index of/　　使用它可以直接进入网站首页下的所有文件和文件夹中。</span><br><span class="line">intext:　　将返回所有在网页正文部分包含关键词的网页。</span><br><span class="line">intitle:　　将返回所有网页标题中包含关键词的网页。</span><br><span class="line">cache:　　搜索google里关于某些内容的缓存。</span><br><span class="line">define:　　搜索某个词语的定义。</span><br><span class="line">filetype:　　搜索指定的文件类型，如：.bak，.mdb，.inc等。</span><br><span class="line">info:　　查找指定站点的一些基本信息。</span><br><span class="line">inurl:　　搜索我们指定的字符是否存在于URL中。</span><br><span class="line">Link:　　link:thief.one可以返回所有和thief.one做了链接的URL。</span><br><span class="line">site:　　site:thief.one将返回所有和这个站有关的URL。</span><br><span class="line"></span><br><span class="line">- 把google可能忽略的字列如查询范围。</span><br><span class="line"></span><br><span class="line">- 把某个字忽略，例子：新加 -坡。</span><br><span class="line">  ~　　同意词。</span><br><span class="line">  .　　单一的通配符。</span><br><span class="line"></span><br><span class="line">- 通配符，可代表多个字母。</span><br><span class="line">  “”　　精确查询。</span><br></pre></td></tr></table></figure>
+<h4 id="搜索不同国家网站"><a href="#搜索不同国家网站" class="headerlink" title="搜索不同国家网站"></a>搜索不同国家网站</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">inurl:tw　　台湾</span><br><span class="line">inurl:jp　　日本</span><br></pre></td></tr></table></figure>
+<h4 id="利用google暴库"><a href="#利用google暴库" class="headerlink" title="利用google暴库"></a>利用google暴库</h4><p>利用goole可以搜索到互联网上可以直接下载到的数据库文件，语法如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">inurl:editor/db/ </span><br><span class="line">inurl:eWebEditor/db/ </span><br><span class="line">inurl:bbs/data/ </span><br><span class="line">inurl:databackup/ </span><br><span class="line">inurl:blog/data/ </span><br><span class="line">inurl:\boke\data </span><br><span class="line">inurl:bbs/database/ </span><br><span class="line">inurl:conn.asp </span><br><span class="line">inc/conn.asp</span><br><span class="line">Server.mapPath(“.mdb”)</span><br><span class="line">allinurl:bbs data</span><br><span class="line">filetype:mdb inurl:database</span><br><span class="line">filetype:inc conn</span><br><span class="line">inurl:data filetype:mdb</span><br><span class="line">intitle:&quot;index of&quot; data</span><br></pre></td></tr></table></figure>
+<h4 id="利用goole搜索敏感信息"><a href="#利用goole搜索敏感信息" class="headerlink" title="利用goole搜索敏感信息"></a>利用goole搜索敏感信息</h4><p>利用google可以搜索一些网站的敏感信息，语法如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">intitle:&quot;index of&quot; etc</span><br><span class="line">intitle:&quot;Index of&quot; .sh_history</span><br><span class="line">intitle:&quot;Index of&quot; .bash_history</span><br><span class="line">intitle:&quot;index of&quot; passwd</span><br><span class="line">intitle:&quot;index of&quot; people.lst</span><br><span class="line">intitle:&quot;index of&quot; pwd.db</span><br><span class="line">intitle:&quot;index of&quot; etc/shadow</span><br><span class="line">intitle:&quot;index of&quot; spwd</span><br><span class="line">intitle:&quot;index of&quot; master.passwd</span><br><span class="line">intitle:&quot;index of&quot; htpasswd</span><br><span class="line">inurl:service.pwd</span><br></pre></td></tr></table></figure>
+<h4 id="利用google搜索C段服务器信息"><a href="#利用google搜索C段服务器信息" class="headerlink" title="利用google搜索C段服务器信息"></a>利用google搜索C段服务器信息</h4><p>此技巧来自<a href="http://wolvez.club/" target="_blank" rel="noopener">lostwolf</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">site:218.87.21.*</span><br></pre></td></tr></table></figure>
+<p>可通过google可获取218.87.21.0/24网络的服务信息。</p>
+<h3 id="shodan搜索引擎"><a href="#shodan搜索引擎" class="headerlink" title="shodan搜索引擎"></a>shodan搜索引擎</h3><p>shodan网络搜索引擎偏向网络设备以及服务器的搜索，具体内容可上网查阅，这里给出它的高级搜索语法。<br>地址：<a href="https://www.shodan.io/" target="_blank" rel="noopener">https://www.shodan.io/</a></p>
+<h4 id="搜索语法"><a href="#搜索语法" class="headerlink" title="搜索语法"></a>搜索语法</h4><ul>
+<li>hostname：　　搜索指定的主机或域名，例如 hostname:”google”</li>
+<li>port：　　搜索指定的端口或服务，例如 port:”21”</li>
+<li>country：　　搜索指定的国家，例如 country:”CN”</li>
+<li>city：　　搜索指定的城市，例如 city:”Hefei”</li>
+<li>org：　　搜索指定的组织或公司，例如 org:”google”</li>
+<li>isp：　　搜索指定的ISP供应商，例如 isp:”China Telecom”</li>
+<li>product：　　搜索指定的操作系统/软件/平台，例如 product:”Apache httpd”</li>
+<li>version：　　搜索指定的软件版本，例如 version:”1.6.2”</li>
+<li>geo：　　搜索指定的地理位置，例如 geo:”31.8639, 117.2808”</li>
+<li>before/after：　　搜索指定收录时间前后的数据，格式为dd-mm-yy，例如 before:”11-11-15”</li>
+<li>net：　　搜索指定的IP地址或子网，例如 net:”210.45.240.0/24”</li>
+</ul>
+<p>以上内容参考：<a href="http://xiaix.me/shodan-xin-shou-ru-keng-zhi-nan/" target="_blank" rel="noopener">http://xiaix.me/shodan-xin-shou-ru-keng-zhi-nan/</a></p>
+<h3 id="censys搜索引擎"><a href="#censys搜索引擎" class="headerlink" title="censys搜索引擎"></a>censys搜索引擎</h3><p>censys搜索引擎功能与shodan类似，以下几个文档信息。<br>地址：<a href="https://www.censys.io/" target="_blank" rel="noopener">https://www.censys.io/</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">https://www.censys.io/certificates/help 帮助文档</span><br><span class="line">https://www.censys.io/ipv4?q=  ip查询</span><br><span class="line">https://www.censys.io/domain?q=  域名查询</span><br><span class="line">https://www.censys.io/certificates?q= 证书查询</span><br></pre></td></tr></table></figure>
+<h4 id="搜索语法-1"><a href="#搜索语法-1" class="headerlink" title="搜索语法"></a>搜索语法</h4><p>默认情况下censys支持全文检索。</p>
+<ul>
+<li>23.0.0.0/8 or 8.8.8.0/24　　可以使用and or not</li>
+<li>80.http.get.status_code: 200　　指定状态</li>
+<li>80.http.get.status_code:[200 TO 300]　　200-300之间的状态码</li>
+<li>location.country_code: DE　　国家</li>
+<li>protocols: (“23/telnet” or “21/ftp”)　　协议</li>
+<li>tags: scada　　标签</li>
+<li>80.http.get.headers.server：nginx　　服务器类型版本</li>
+<li>autonomous_system.description: University　　系统描述</li>
+<li>正则</li>
+</ul>
+<h3 id="钟馗之眼"><a href="#钟馗之眼" class="headerlink" title="钟馗之眼"></a>钟馗之眼</h3><p>钟馗之眼搜索引擎偏向web应用层面的搜索。<br>地址：<a href="https://www.zoomeye.org/" target="_blank" rel="noopener">https://www.zoomeye.org/</a></p>
+<h4 id="搜索语法-2"><a href="#搜索语法-2" class="headerlink" title="搜索语法"></a>搜索语法</h4><ul>
+<li>app:nginx　　组件名</li>
+<li>ver:1.0　　版本</li>
+<li>os:windows　　操作系统</li>
+<li>country:”China”　　国家</li>
+<li>city:”hangzhou”　　城市</li>
+<li>port:80　　端口</li>
+<li>hostname:google　　主机名</li>
+<li>site:thief.one　　网站域名</li>
+<li>desc:nmask　　描述</li>
+<li>keywords:nmask’blog　　关键词</li>
+<li>service:ftp　　服务类型</li>
+<li>ip:8.8.8.8　　ip地址</li>
+<li>cidr:8.8.8.8/24　　ip地址段</li>
+</ul>
+<h3 id="FoFa搜索引擎"><a href="#FoFa搜索引擎" class="headerlink" title="FoFa搜索引擎"></a>FoFa搜索引擎</h3><p>FoFa搜索引擎偏向资产搜索。<br>地址：<a href="https://fofa.so/" target="_blank" rel="noopener">https://fofa.so</a></p>
+<h4 id="搜索语法-3"><a href="#搜索语法-3" class="headerlink" title="搜索语法"></a>搜索语法</h4><ul>
+<li>title=”abc” 从标题中搜索abc。例：标题中有北京的网站。</li>
+<li>header=”abc” 从http头中搜索abc。例：jboss服务器。</li>
+<li>body=”abc” 从html正文中搜索abc。例：正文包含Hacked by。</li>
+<li>domain=”qq.com” 搜索根域名带有qq.com的网站。例： 根域名是qq.com的网站。</li>
+<li>host=”.gov.cn” 从url中搜索.gov.cn,注意搜索要用host作为名称。</li>
+<li>port=”443” 查找对应443端口的资产。例： 查找对应443端口的资产。</li>
+<li>ip=”1.1.1.1” 从ip中搜索包含1.1.1.1的网站,注意搜索要用ip作为名称。</li>
+<li>protocol=”https” 搜索制定协议类型(在开启端口扫描的情况下有效)。例： 查询https协议资产。</li>
+<li>city=”Beijing” 搜索指定城市的资产。例： 搜索指定城市的资产。</li>
+<li>region=”Zhejiang” 搜索指定行政区的资产。例： 搜索指定行政区的资产。</li>
+<li>country=”CN” 搜索指定国家(编码)的资产。例： 搜索指定国家(编码)的资产。</li>
+<li>cert=”google.com” 搜索证书(https或者imaps等)中带有google.com的资产。</li>
+</ul>
+<p>高级搜索：</p>
+<ul>
+<li>title=”powered by” &amp;&amp; title!=discuz</li>
+<li>title!=”powered by” &amp;&amp; body=discuz</li>
+<li>( body=”content=\”WordPress” || (header=”X-Pingback” &amp;&amp; header=”/xmlrpc.php” &amp;&amp; body=”/wp-includes/“) ) &amp;&amp; host=”gov.cn”</li>
+</ul>
+<h3 id="Dnsdb搜索引擎"><a href="#Dnsdb搜索引擎" class="headerlink" title="Dnsdb搜索引擎"></a>Dnsdb搜索引擎</h3><p>dnsdb搜索引擎是一款针对dbs解析的查询平台。<br>地址：<a href="https://www.dnsdb.io/" target="_blank" rel="noopener">https://www.dnsdb.io/</a></p>
+<h4 id="搜索语法-4"><a href="#搜索语法-4" class="headerlink" title="搜索语法"></a>搜索语法</h4><p>DnsDB查询语法结构为条件1 条件2 条件3 …., 每个条件以空格间隔, DnsDB 会把满足所有查询条件的结果返回给用户.</p>
+<h5 id="域名查询条件"><a href="#域名查询条件" class="headerlink" title="域名查询条件"></a>域名查询条件</h5><p>域名查询是指查询顶级私有域名所有的DNS记录, 查询语法为domain:.<br>例如查询google.com 的所有DNS记录: domain:google.com.<br>域名查询可以省略domain:.</p>
+<h5 id="主机查询条件"><a href="#主机查询条件" class="headerlink" title="主机查询条件"></a>主机查询条件</h5><p>查询语法:host:<br>例如查询主机地址为mp3.example.com的DNS记录: host:map3.example.com<br>主机查询条件与域名查询查询条件的区别在于, 主机查询匹配的是DNS记录的Host值</p>
+<h5 id="按DNS记录类型查询"><a href="#按DNS记录类型查询" class="headerlink" title="按DNS记录类型查询"></a>按DNS记录类型查询</h5><p>查询语法: type:.<br>例如只查询A记录: type:a<br>使用条件:必须存在domain:或者host:条件,才可以使用type:查询语法</p>
+<h5 id="按IP限制"><a href="#按IP限制" class="headerlink" title="按IP限制"></a>按IP限制</h5><p>查询语法: ip:<br>查询指定IP: ip:8.8.8.8, 该查询与直接输入8.8.8.8进行查询等效<br>查询指定IP范围: ip:8.8.8.8-8.8.255.255<br>CIDR: ip:8.8.0.0/24<br>IP最大范围限制65536个</p>
+<h5 id="条件组合查询的例子"><a href="#条件组合查询的例子" class="headerlink" title="条件组合查询的例子"></a>条件组合查询的例子</h5><p>查询google.com的所有A记录: google.com type:a</p>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="https:///login546.github.io/2019/07/08/渗透测试《搜索引擎》/" title="渗透测试《搜索引擎》利用" target="_blank" rel="external">https:///login546.github.io/2019/07/08/渗透测试《搜索引擎》/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/login546" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt>
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/login546" target="_blank"><span class="text-dark">Shym</span><small class="ml-1x">Web Penetration &amp; Safe</small></a></h3>
+        <div>念念不忘，必有回响。</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+      <div id="vcomments"></div>
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2019/07/12/渗透测试《文件上传》/" title="渗透测试《文件上传》姿势"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2019/05/14/ss-ssr一键搭建及开启bbr加速/" title="ss/ssr一键搭建及开启bbr加速"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+    <li class="toggle-toc">
+      <a class="toggle-btn collapsed" data-toggle="collapse" href="#collapseToc" aria-expanded="false" title="文章目录" role="button">
+        <span>[&nbsp;</span><span>文章目录</span>
+        <i class="text-collapsed icon icon-anchor"></i>
+        <i class="text-in icon icon-close"></i>
+        <span>]</span>
+      </a>
+    </li>
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>赏</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>感谢您的支持，我会继续努力的!</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/images/donate/alipayimg.png" alt="扫码支持" title="扫一扫">
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开支付宝扫一扫，即可进行扫码打赏哦</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/images/donate/wechatpayimg.png" alt="扫码支持" title="扫一扫">
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开微信扫一扫，即可进行扫码打赏哦</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> 支付宝</a>
+              </li>
+              <li role="presentation" class>
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> 微信支付</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/login546" target="_blank" title="Github" data-toggle="tooltip" data-placement="top"><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle="tooltip" data-placement="top"><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+<script src="/js/plugin.min.js"></script>
+<script src="/js/application.js"></script>
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+
+
+
+
+   
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+   
+    
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine"></script>
+  <script type="text/javascript">
+  var GUEST = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link';
+  meta = meta.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#vcomments',
+    verify: false,
+    notify: false,
+    appId: '8N4wsmE4q6xOV8SFDCdDeBlG-9Nh9j0Va',
+    appKey: 'cyKEqESlp99uYO9D2y37mcn3',
+    placeholder: 'Just go go',
+    avatar: 'mm',
+    meta: meta,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+  </script>
+
+     
+
+
+
+
+
+    <script defer type="text/javascript">
+(function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-138683168-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+
+
+    <script defer>
+var _hmt = _hmt || [];
+(function() {
+    var hm = document.createElement("script");
+    hm.src = "//hm.baidu.com/hm.js?06a311cb0e022d892a71f4c2082899e4";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-5733798161093239",
+    enable_page_level_ads: true
+  });
+</script>
+
+
+
+
+
+</body>
+</html>
