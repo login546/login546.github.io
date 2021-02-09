@@ -77,8 +77,9 @@ theme: pure
 
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
-deploy:
-  type:
+type: git
+repo: git@github.com:login546/login546.github.io.git
+branch: master
 
 # Encrypt:
 ## docs:https://www.jianshu.com/p/44e211829447
