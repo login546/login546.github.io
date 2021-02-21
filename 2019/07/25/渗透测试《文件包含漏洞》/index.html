@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang=zh>
-<head><meta name="generator" content="Hexo 3.8.0">
+<head><meta name="generator" content="Hexo 3.9.0">
   <meta charset="utf-8">
   
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -28,7 +28,7 @@
 <meta property="og:site_name" content="shym&#39;s blog">
 <meta property="og:description" content="原理文件包含漏洞产生的原因是在通过php函数引入文件时，由于传入的文件名没有经过合理的校验，从而引发了文件的泄漏或者恶意代码的注入 php引发文件包含漏洞的四个常见函数： 1234include() 当使用该函数包含文件时，只有代码执行到include()函数时才将文件包含进来，发生错误时只给出一个警告，继续向下执行。include_once() 功能和include()相同，区别在于当重复调用同">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2021-01-22T08:48:08.994Z">
+<meta property="og:updated_time" content="2021-02-21T06:21:49.994Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="渗透测试《文件包含》漏洞">
 <meta name="twitter:description" content="原理文件包含漏洞产生的原因是在通过php函数引入文件时，由于传入的文件名没有经过合理的校验，从而引发了文件的泄漏或者恶意代码的注入 php引发文件包含漏洞的四个常见函数： 1234include() 当使用该函数包含文件时，只有代码执行到include()函数时才将文件包含进来，发生错误时只给出一个警告，继续向下执行。include_once() 功能和include()相同，区别在于当重复调用同">
@@ -67,7 +67,7 @@
 
     <form class="search-form sidebar-form">
         <div class="input-group">
-            <input type="text" class="search-form-input form-control" placeholder="搜索">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
             <span class="input-group-btn">
                 <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
             </span>
@@ -77,7 +77,7 @@
   <div class="ins-search-mask"></div>
   <div class="ins-search-container">
     <div class="ins-input-wrapper">
-      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech>
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech />
       <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
     </div>
     <div class="ins-section-wrapper">
@@ -173,9 +173,9 @@
 	
     <ul class="social-links">
     	
-        <li><a href="https://github.com/login546" target="_blank" title="Github" data-toggle="tooltip" data-placement="top"><i class="icon icon-github"></i></a></li>
+        <li><a href="https://github.com/login546" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
         
-        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle="tooltip" data-placement="top"><i class="icon icon-rss"></i></a></li>
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
         
     </ul>
 
@@ -203,7 +203,7 @@
   <div class="widget">
     <h3 class="widget-title">分类</h3>
     <div class="widget-body">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Bypass/">Bypass</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ctf/">ctf</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/writeup/">writeup</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/渗透测试/">渗透测试</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/渗透测试/工具/">工具</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/漏洞复现/">漏洞复现</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/通用漏洞挖掘/">通用漏洞挖掘</a><span class="category-list-count">1</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Bypass/">Bypass</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ctf/">ctf</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/writeup/">writeup</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/免杀/">免杀</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/渗透测试/">渗透测试</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/渗透测试/工具/">工具</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/漏洞复现/">漏洞复现</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/通用漏洞挖掘/">通用漏洞挖掘</a><span class="category-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -213,7 +213,7 @@
   <div class="widget">
     <h3 class="widget-title">标签</h3>
     <div class="widget-body">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/2019-DDCTF-writeup/">2019-DDCTF-writeup</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/2019年工业信息安全技能大赛个人线上赛-第一场/">2019年工业信息安全技能大赛个人线上赛(第一场)</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CTFhub/">CTFhub</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CTFhub-RCE/">CTFhub-RCE</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CVE-2019-0708/">CVE-2019-0708</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CVE-2019-13272/">CVE-2019-13272</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CVE-2019-14287/">CVE-2019-14287</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CVE-2020-0796/">CVE-2020-0796</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Joomla3-0-0-3-4-5-RCE/">Joomla3.0.0-3.4.5 RCE</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ices/">ices</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sqlmap参数详解/">sqlmap参数详解</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/存储型xss/">存储型xss</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/搜索引擎利用/">搜索引擎利用</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/文件上传姿势总结/">文件上传姿势总结</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/文件包含漏洞/">文件包含漏洞</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/爬虫/">爬虫</a><span class="tag-list-count">1</span></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/2019-DDCTF-writeup/">2019-DDCTF-writeup</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/2019年工业信息安全技能大赛个人线上赛-第一场/">2019年工业信息安全技能大赛个人线上赛(第一场)</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CTFhub/">CTFhub</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CTFhub-RCE/">CTFhub-RCE</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CVE-2019-0708/">CVE-2019-0708</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CVE-2019-13272/">CVE-2019-13272</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CVE-2019-14287/">CVE-2019-14287</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CVE-2020-0796/">CVE-2020-0796</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Joomla3-0-0-3-4-5-RCE/">Joomla3.0.0-3.4.5 RCE</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ices/">ices</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sqlmap参数详解/">sqlmap参数详解</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/uuidshellcode/">uuidshellcode</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/存储型xss/">存储型xss</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/搜索引擎利用/">搜索引擎利用</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/文件上传姿势总结/">文件上传姿势总结</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/文件包含漏洞/">文件包含漏洞</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/爬虫/">爬虫</a><span class="tag-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -223,7 +223,7 @@
   <div class="widget">
     <h3 class="widget-title">标签云</h3>
     <div class="widget-body tagcloud">
-      <a href="/tags/2019-DDCTF-writeup/" style="font-size: 13px;">2019-DDCTF-writeup</a> <a href="/tags/2019年工业信息安全技能大赛个人线上赛-第一场/" style="font-size: 13px;">2019年工业信息安全技能大赛个人线上赛(第一场)</a> <a href="/tags/CTFhub/" style="font-size: 13px;">CTFhub</a> <a href="/tags/CTFhub-RCE/" style="font-size: 13px;">CTFhub-RCE</a> <a href="/tags/CVE-2019-0708/" style="font-size: 13px;">CVE-2019-0708</a> <a href="/tags/CVE-2019-13272/" style="font-size: 13px;">CVE-2019-13272</a> <a href="/tags/CVE-2019-14287/" style="font-size: 13px;">CVE-2019-14287</a> <a href="/tags/CVE-2020-0796/" style="font-size: 13px;">CVE-2020-0796</a> <a href="/tags/Joomla3-0-0-3-4-5-RCE/" style="font-size: 13px;">Joomla3.0.0-3.4.5 RCE</a> <a href="/tags/ices/" style="font-size: 13px;">ices</a> <a href="/tags/sqlmap参数详解/" style="font-size: 13px;">sqlmap参数详解</a> <a href="/tags/存储型xss/" style="font-size: 13px;">存储型xss</a> <a href="/tags/搜索引擎利用/" style="font-size: 13px;">搜索引擎利用</a> <a href="/tags/文件上传姿势总结/" style="font-size: 13px;">文件上传姿势总结</a> <a href="/tags/文件包含漏洞/" style="font-size: 13px;">文件包含漏洞</a> <a href="/tags/爬虫/" style="font-size: 13px;">爬虫</a>
+      <a href="/tags/2019-DDCTF-writeup/" style="font-size: 13px;">2019-DDCTF-writeup</a> <a href="/tags/2019年工业信息安全技能大赛个人线上赛-第一场/" style="font-size: 13px;">2019年工业信息安全技能大赛个人线上赛(第一场)</a> <a href="/tags/CTFhub/" style="font-size: 13px;">CTFhub</a> <a href="/tags/CTFhub-RCE/" style="font-size: 13px;">CTFhub-RCE</a> <a href="/tags/CVE-2019-0708/" style="font-size: 13px;">CVE-2019-0708</a> <a href="/tags/CVE-2019-13272/" style="font-size: 13px;">CVE-2019-13272</a> <a href="/tags/CVE-2019-14287/" style="font-size: 13px;">CVE-2019-14287</a> <a href="/tags/CVE-2020-0796/" style="font-size: 13px;">CVE-2020-0796</a> <a href="/tags/Joomla3-0-0-3-4-5-RCE/" style="font-size: 13px;">Joomla3.0.0-3.4.5 RCE</a> <a href="/tags/ices/" style="font-size: 13px;">ices</a> <a href="/tags/sqlmap参数详解/" style="font-size: 13px;">sqlmap参数详解</a> <a href="/tags/uuidshellcode/" style="font-size: 13px;">uuidshellcode</a> <a href="/tags/存储型xss/" style="font-size: 13px;">存储型xss</a> <a href="/tags/搜索引擎利用/" style="font-size: 13px;">搜索引擎利用</a> <a href="/tags/文件上传姿势总结/" style="font-size: 13px;">文件上传姿势总结</a> <a href="/tags/文件包含漏洞/" style="font-size: 13px;">文件包含漏洞</a> <a href="/tags/爬虫/" style="font-size: 13px;">爬虫</a>
     </div>
   </div>
 
@@ -232,7 +232,7 @@
   <div class="widget">
     <h3 class="widget-title">归档</h3>
     <div class="widget-body">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">四月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">三月 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">二月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">十二月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">七月 2019</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">四月 2019</a><span class="archive-list-count">1</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">一月 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">四月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">三月 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">二月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">十二月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">七月 2019</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">四月 2019</a><span class="archive-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -244,6 +244,21 @@
     <div class="widget-body">
       <ul class="recent-post-list list-unstyled no-thumbnail">
         
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/免杀/">免杀</a>
+              </p>
+              <p class="item-title">
+                <a href="/2021/01/27/uuidshellcode免杀/" class="title">uuidshellcode免杀</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-01-27T09:29:00.000Z" itemprop="datePublished">2021-01-27</time>
+              </p>
+            </div>
+          </li>
+          
           <li>
             
             <div class="item-inner">
@@ -304,21 +319,6 @@
             </div>
           </li>
           
-          <li>
-            
-            <div class="item-inner">
-              <p class="item-category">
-                <a class="category-link" href="/categories/python/">python</a>
-              </p>
-              <p class="item-title">
-                <a href="/2019/12/30/爬区国内所有高校官网地址/" class="title">爬区国内所有高校名单</a>
-              </p>
-              <p class="item-date">
-                <time datetime="2019-12-30T11:26:50.000Z" itemprop="datePublished">2019-12-30</time>
-              </p>
-            </div>
-          </li>
-          
       </ul>
     </div>
   </div>
@@ -334,7 +334,7 @@
   <div class="slimContent">
     <nav id="toc" class="article-toc">
       <h3 class="toc-title">文章目录</h3>
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#原理"><span class="toc-number">1.</span> <span class="toc-text">原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#利用条件"><span class="toc-number">2.</span> <span class="toc-text">利用条件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#文件包含分类"><span class="toc-number">3.</span> <span class="toc-text">文件包含分类</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#一、本地包含"><span class="toc-number">3.1.</span> <span class="toc-text">一、本地包含</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#包含同目录下的文件"><span class="toc-number">3.1.1.</span> <span class="toc-text">包含同目录下的文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#目录遍历"><span class="toc-number">3.1.2.</span> <span class="toc-text">目录遍历</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#包含日志"><span class="toc-number">3.1.3.</span> <span class="toc-text">包含日志</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#常用日志默认路径"><span class="toc-number">3.1.3.1.</span> <span class="toc-text">常用日志默认路径</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#apache-Linux日志默认路径"><span class="toc-number">3.1.3.1.1.</span> <span class="toc-text">apache+Linux日志默认路径</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#nginx日志文件"><span class="toc-number">3.1.3.1.2.</span> <span class="toc-text">nginx日志文件</span></a></li></ol></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#包含session"><span class="toc-number">3.1.4.</span> <span class="toc-text">包含session</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#包含-proc-self-environ文件"><span class="toc-number">3.1.5.</span> <span class="toc-text">包含/proc/self/environ文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#包含临时文件"><span class="toc-number">3.1.6.</span> <span class="toc-text">包含临时文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#包含上传文件-图片"><span class="toc-number">3.1.7.</span> <span class="toc-text">包含上传文件(图片)</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#有防御的本地文件包含"><span class="toc-number">3.2.</span> <span class="toc-text">有防御的本地文件包含</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#00截断"><span class="toc-number">3.2.0.1.</span> <span class="toc-text">%00截断</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#00截断目录遍历："><span class="toc-number">3.2.0.2.</span> <span class="toc-text">%00截断目录遍历：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#路径长度截断："><span class="toc-number">3.2.0.3.</span> <span class="toc-text">路径长度截断：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#点号截断："><span class="toc-number">3.2.0.4.</span> <span class="toc-text">点号截断：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#编码绕过"><span class="toc-number">3.2.0.5.</span> <span class="toc-text">编码绕过</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#绕过"><span class="toc-number">3.2.0.6.</span> <span class="toc-text">~绕过</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#二、远程文件包含"><span class="toc-number">3.3.</span> <span class="toc-text">二、远程文件包含</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#有防御的远程文件包含"><span class="toc-number">3.4.</span> <span class="toc-text">有防御的远程文件包含</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#PHP中的封装协议-伪协议"><span class="toc-number">3.5.</span> <span class="toc-text">PHP中的封装协议(伪协议)</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#利用php流input："><span class="toc-number">3.5.1.</span> <span class="toc-text">利用php流input：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#利用php流filter："><span class="toc-number">3.5.2.</span> <span class="toc-text">利用php流filter：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#利用data-URIs："><span class="toc-number">3.5.3.</span> <span class="toc-text">利用data URIs：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#glob-伪协议"><span class="toc-number">3.5.4.</span> <span class="toc-text">glob://伪协议</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#phar"><span class="toc-number">3.5.5.</span> <span class="toc-text">phar://</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#zip"><span class="toc-number">3.5.6.</span> <span class="toc-text">zip://</span></a></li></ol></li></ol><li class="toc-item toc-level-2"><a class="toc-link" href="#CTF中的文件包含套路"><span class="toc-number">4.</span> <span class="toc-text">CTF中的文件包含套路</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#php伪协议读取源码"><span class="toc-number">4.1.</span> <span class="toc-text">php伪协议读取源码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#php-input"><span class="toc-number">4.2.</span> <span class="toc-text">php://input</span></a></li></ol></li>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#原理"><span class="toc-number">1.</span> <span class="toc-text">原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#利用条件"><span class="toc-number">2.</span> <span class="toc-text">利用条件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#文件包含分类"><span class="toc-number">3.</span> <span class="toc-text">文件包含分类</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#一、本地包含"><span class="toc-number">3.1.</span> <span class="toc-text">一、本地包含</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#包含同目录下的文件"><span class="toc-number">3.1.1.</span> <span class="toc-text">包含同目录下的文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#目录遍历"><span class="toc-number">3.1.2.</span> <span class="toc-text">目录遍历</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#包含日志"><span class="toc-number">3.1.3.</span> <span class="toc-text">包含日志</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#常用日志默认路径"><span class="toc-number">3.1.3.1.</span> <span class="toc-text">常用日志默认路径</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#apache-Linux日志默认路径"><span class="toc-number">3.1.3.1.1.</span> <span class="toc-text">apache+Linux日志默认路径</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#nginx日志文件"><span class="toc-number">3.1.3.1.2.</span> <span class="toc-text">nginx日志文件</span></a></li></ol></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#包含session"><span class="toc-number">3.1.4.</span> <span class="toc-text">包含session</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#包含-proc-self-environ文件"><span class="toc-number">3.1.5.</span> <span class="toc-text">包含/proc/self/environ文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#包含临时文件"><span class="toc-number">3.1.6.</span> <span class="toc-text">包含临时文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#包含上传文件-图片"><span class="toc-number">3.1.7.</span> <span class="toc-text">包含上传文件(图片)</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#有防御的本地文件包含"><span class="toc-number">3.2.</span> <span class="toc-text">有防御的本地文件包含</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#00截断"><span class="toc-number">3.2.0.1.</span> <span class="toc-text">%00截断</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#00截断目录遍历："><span class="toc-number">3.2.0.2.</span> <span class="toc-text">%00截断目录遍历：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#路径长度截断："><span class="toc-number">3.2.0.3.</span> <span class="toc-text">路径长度截断：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#点号截断："><span class="toc-number">3.2.0.4.</span> <span class="toc-text">点号截断：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#编码绕过"><span class="toc-number">3.2.0.5.</span> <span class="toc-text">编码绕过</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#绕过"><span class="toc-number">3.2.0.6.</span> <span class="toc-text">~绕过</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#二、远程文件包含"><span class="toc-number">3.3.</span> <span class="toc-text">二、远程文件包含</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#有防御的远程文件包含"><span class="toc-number">3.4.</span> <span class="toc-text">有防御的远程文件包含</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#PHP中的封装协议-伪协议"><span class="toc-number">3.5.</span> <span class="toc-text">PHP中的封装协议(伪协议)</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#利用php流input："><span class="toc-number">3.5.1.</span> <span class="toc-text">利用php流input：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#利用php流filter："><span class="toc-number">3.5.2.</span> <span class="toc-text">利用php流filter：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#利用data-URIs："><span class="toc-number">3.5.3.</span> <span class="toc-text">利用data URIs：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#glob-伪协议"><span class="toc-number">3.5.4.</span> <span class="toc-text">glob://伪协议</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#phar"><span class="toc-number">3.5.5.</span> <span class="toc-text">phar://</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#zip"><span class="toc-number">3.5.6.</span> <span class="toc-text">zip://</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CTF中的文件包含套路"><span class="toc-number">4.</span> <span class="toc-text">CTF中的文件包含套路</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#php伪协议读取源码"><span class="toc-number">4.1.</span> <span class="toc-text">php伪协议读取源码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#php-input"><span class="toc-number">4.2.</span> <span class="toc-text">php://input</span></a></li></ol></li></ol>
     </nav>
   </div>
 </aside>
@@ -549,7 +549,7 @@
     <figure class="media">
       <div class="media-left">
         <a href="https://github.com/login546" target="_blank" class="img-burn thumb-sm visible-lg">
-          <img src="/images/avatar.jpg" class="img-rounded w-full" alt>
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
         </a>
       </div>
       <div class="media-body">
@@ -630,14 +630,14 @@
           <div class="tab-content">
             <div role="tabpanel" class="tab-pane fade active in" id="alipay">
               <div class="donate-payimg">
-                <img src="/images/donate/alipayimg.png" alt="扫码支持" title="扫一扫">
+                <img src="/images/donate/alipayimg.png" alt="扫码支持" title="扫一扫" />
               </div>
               <p class="text-muted mv">扫码打赏，你说多少就多少</p>
               <p class="text-grey">打开支付宝扫一扫，即可进行扫码打赏哦</p>
             </div>
             <div role="tabpanel" class="tab-pane fade" id="wechatpay">
               <div class="donate-payimg">
-                <img src="/images/donate/wechatpayimg.png" alt="扫码支持" title="扫一扫">
+                <img src="/images/donate/wechatpayimg.png" alt="扫码支持" title="扫一扫" />
               </div>
               <p class="text-muted mv">扫码打赏，你说多少就多少</p>
               <p class="text-grey">打开微信扫一扫，即可进行扫码打赏哦</p>
@@ -648,7 +648,7 @@
               <li role="presentation" class="active">
                 <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> 支付宝</a>
               </li>
-              <li role="presentation" class>
+              <li role="presentation" class="">
                 <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> 微信支付</a>
               </li>
             </ul>
@@ -668,9 +668,9 @@
 	
     <ul class="social-links">
     	
-        <li><a href="https://github.com/login546" target="_blank" title="Github" data-toggle="tooltip" data-placement="top"><i class="icon icon-github"></i></a></li>
+        <li><a href="https://github.com/login546" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
         
-        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle="tooltip" data-placement="top"><i class="icon icon-rss"></i></a></li>
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
         
     </ul>
 

