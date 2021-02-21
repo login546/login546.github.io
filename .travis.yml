@@ -18,8 +18,8 @@ deploy:
   github-token: $GITHUB_TOKEN
   keep-history: true
   local-dir: ./public
-  target-branch: master
+  target-branch: hexo
   on:
-    branch: hexo
+    branch: master
 
 # vim: et:ts=2:sw=2:
